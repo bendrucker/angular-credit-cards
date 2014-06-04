@@ -35,5 +35,8 @@
     "mocha": "^1.20.1",
     "sinon": "^1.10.2",
     "sinon-chai": "^2.5.0"
+  },
+  "dependencies": {
+    "creditcard": "^0.1.1"
   }
 }
