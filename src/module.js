@@ -1,6 +1,7 @@
 'use strict';
 
-require('angular').module('credit-cards')
+require('angular')
+  .module('credit-cards', [])
   .value('creditCard', require('creditcard'))
   .directive('ccNumber', [
     'creditCard',

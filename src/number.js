@@ -6,7 +6,7 @@ module.exports = function (creditCard) {
     require: 'ngModel',
     link: function (scope, element, attributes, controller) {
       controller.$parsers.unshift(function (number) {
-        var valid = creditCard.validateCardNumber(number);
+        var valid = creditCard.validate(number);
         controller.$setValidity('creditCardNumber', valid);
         if (valid) return creditCard.format(number);
       });
