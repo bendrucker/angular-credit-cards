@@ -2,9 +2,9 @@
 
 var internals = {};
 
-module.exports = function () {
+// module.exports = function () {
 
-};
+// };
 
 internals.validMonth = function (month) {
   if (!month) return false;

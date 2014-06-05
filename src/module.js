@@ -3,11 +3,11 @@
 require('angular').module('credit-cards')
   .value('creditCard', require('creditcard'))
   .directive('ccNumber', [
-    'creditCard'
+    'creditCard',
     require('./number')
   ])
-  .directive('ccExpiration'), require('./expiration'))
-  .directive('ccExpirationMonth', require('./expiration').month),
+  // .directive('ccExpiration'), require('./expiration'))
+  .directive('ccExpirationMonth', require('./expiration').month)
   .directive('ccExpirationYear', require('./expiration').year)
   .directive('ccCvc', require('./cvc'));
 
