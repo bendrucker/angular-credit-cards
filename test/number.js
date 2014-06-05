@@ -6,10 +6,11 @@ describe('cc-number', function () {
 
   beforeEach(angular.mock.module('credit-cards'));
 
-  var creditCard, scope, controller;
+  var creditCard, scope, controller, sandbox;
   beforeEach(angular.mock.inject(function ($injector) {
     var $compile = $injector.get('$compile');
     var element  = angular.element('<input ng-model="card.number" cc-number />');
+    sandbox      = sinon.sandbox.create();
     creditCard   = $injector.get('creditCard');
     scope        = $injector.get('$rootScope').$new();
     scope.card   = {};
@@ -17,15 +18,44 @@ describe('cc-number', function () {
     controller   = element.controller('ngModel');
   }));
 
-  it('is valid when a card validation is truthy', function () {
-    sinon.stub(creditCard, 'validate').returns(false);
-    controller.$setViewValue(' ');
-    scope.$digest();
-    expect(scope.card.number).to.be.undefined;
-    expect(controller.$valid).to.be.false;
+  afterEach(function () {
+    sandbox.restore();
   });
 
-  xit('is invalid when card validation is falsy', function () {
+  describe('invalid', function () {
+
+    beforeEach(function () {
+      sandbox.stub(creditCard, 'validate').returns(false);
+      controller.$setViewValue('card');
+      scope.$digest();
+    });
+
+    it('unsets the model value', function () {
+      expect(scope.card.number).to.be.undefined;
+    });
+
+    it('sets the element as $invalid', function () {
+      expect(controller.$invalid).to.be.true;
+    });
+
+  });
+
+  describe('valid', function () {
+
+    beforeEach(function () {
+      sandbox.stub(creditCard, 'validate').returns(true);
+      sandbox.stub(creditCard, 'format').returns('formattedCard');
+      controller.$setViewValue('card');
+      scope.$digest();
+    });
+
+    it('sets the model as the formatted card', function () {
+      expect(scope.card.number).to.equal('formattedCard');
+    });
+
+    it('sets the element as $valid', function () {
+      expect(controller.$valid).to.be.true;
+    });
 
   });
 
