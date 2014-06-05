@@ -45,7 +45,15 @@ describe('Expiration', function () {
       });
 
       it('unsets the model value when $invalid', function () {
+        controller.$setViewValue('');
+        scope.$digest();
         expect(scope.expiration.month).to.be.undefined;
+      });
+
+      it('sets an error key', function () {
+        controller.$setViewValue('');
+        scope.$digest();
+        expect(controller.$error.ccExpMonth).to.be.true;
       });
 
     });
