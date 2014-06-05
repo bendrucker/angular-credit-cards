@@ -13,7 +13,8 @@ internals.validMonth = function (month) {
   return true;
 };
 
-internals.padMonth = function () {
+internals.padMonth = function (month) {
+  month = month.toString();
   return month.length === 1 ? '0' + month : month;
 };
 
