@@ -17,7 +17,7 @@
     "payments",
     "validation",
     "directive",
-    "forn"
+    "form"
   ],
   "author": "Ben Drucker <bvdrucker@gmail.com> (http://www.bendrucker.me/)",
   "license": "MIT",
@@ -26,17 +26,34 @@
   },
   "homepage": "https://github.com/bendrucker/angular-credit-cards",
   "devDependencies": {
+    "browserify": "^4.1.8",
+    "browserify-shim": "^3.5.0",
     "chai": "^1.9.1",
     "karma": "^0.12.16",
+    "karma-bro": "^0.4.0",
     "karma-chai-sinon": "^0.1.3",
     "karma-cli": "0.0.4",
     "karma-mocha": "^0.1.3",
     "karma-phantomjs-launcher": "^0.1.4",
     "mocha": "^1.20.1",
     "sinon": "^1.10.2",
-    "sinon-chai": "^2.5.0"
+    "sinon-chai": "^2.5.0",
+    "watchify": "^0.10.2"
   },
   "dependencies": {
     "creditcard": "^0.1.1"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "angular": "global:angular",
+    "angular-mocks": {
+      "depends": [
+        "angular"
+      ]
+    }
   }
 }
