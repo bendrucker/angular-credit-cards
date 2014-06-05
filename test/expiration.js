@@ -15,10 +15,14 @@ describe('Expiration', function () {
 
   describe('cc-exp-month', function () {
 
-    var controller;
+    var controller, element;
     beforeEach(function () {
-      var element = angular.element('<input ng-model="expiration.month" cc-exp-month />');
-      controller  = $compile(element)(scope).controller('ngModel');
+      element    = angular.element('<input ng-model="expiration.month" cc-exp-month />');
+      controller = $compile(element)(scope).controller('ngModel');
+    });
+
+    it('sets maxlength to 2', function () {
+      expect(element.attr('maxlength')).to.equal('2');
     });
 
     describe('invalid', function () {
@@ -88,11 +92,15 @@ describe('Expiration', function () {
 
   describe('cc-exp-year', function () {
 
-    var controller;
+    var controller, element;
     beforeEach(angular.mock.inject(function ($injector) {
-      var element = angular.element('<input ng-model="expiration.year" cc-exp-year />');
-      controller  = $compile(element)(scope).controller('ngModel');
+      element    = angular.element('<input ng-model="expiration.year" cc-exp-year />');
+      controller = $compile(element)(scope).controller('ngModel');
     }));
+
+    it('sets maxlength to 2', function () {
+      expect(element.attr('maxlength')).to.equal('2');
+    });
 
     describe('valid', function () {
 

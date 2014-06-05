@@ -23,6 +23,7 @@ module.exports.month = function () {
     restrict: 'AC',
     require: 'ngModel',
     link: function (scope, element, attributes, controller) {
+      element.attr('maxlength', 2);
       controller.$parsers.unshift(function (month) {
         var valid = internals.validMonth(month);
         controller.$setValidity('ccExpMonth', valid);
@@ -34,8 +35,24 @@ module.exports.month = function () {
 
 internals.validYear = function (year) {
   if (!year) return false;
-}
+  year = parseInt(year);
+
+  // var currentYear = new Date()
+  //   .getFullYear()
+  //   .toString()
+  //   .substring(2, 4);
+  // year = 
+};
 
 module.exports.year = function () {
-
+  return {
+    restrict: 'AC',
+    require: 'ngModel',
+    scope: {
+      yearFormat: '@'
+    },
+    link: function (scope, element, attributes, controller) {
+      element.attr('maxlength', 2);
+    }
+  }
 };
