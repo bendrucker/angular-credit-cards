@@ -36,6 +36,7 @@ describe('cc-number', function () {
 
     it('sets the element as $invalid', function () {
       expect(controller.$invalid).to.be.true;
+      expect(controller.$error.ccNumber).to.be.true;
     });
 
   });
@@ -55,6 +56,7 @@ describe('cc-number', function () {
 
     it('sets the element as $valid', function () {
       expect(controller.$valid).to.be.true;
+      expect(controller.$error.ccNumber).to.be.false;
     });
 
   });

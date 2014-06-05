@@ -7,7 +7,7 @@ module.exports = function (creditCard) {
     link: function (scope, element, attributes, controller) {
       controller.$parsers.unshift(function (number) {
         var valid = creditCard.validate(number);
-        controller.$setValidity('creditCardNumber', valid);
+        controller.$setValidity('ccNumber', valid);
         if (valid) return creditCard.format(number);
       });
     }
