@@ -24,24 +24,34 @@ module.exports.month = function () {
     require: 'ngModel',
     link: function (scope, element, attributes, controller) {
       element.attr('maxlength', 2);
+      element.attr('minlength', 2);
       controller.$parsers.unshift(function (month) {
         var valid = internals.validMonth(month);
         controller.$setValidity('ccExpMonth', valid);
         if (valid) return internals.padMonth(month);
       });
     }
-  }
+  };
 };
 
 internals.validYear = function (year) {
   if (!year) return false;
   year = parseInt(year);
+  if (isNaN(year)) return false;
+  var currentYear = parseInt(new Date()
+    .getFullYear()
+    .toString()
+    .substring(2, 4));
+  if (year < currentYear) return false;
+  return true;
+};
 
-  // var currentYear = new Date()
-  //   .getFullYear()
-  //   .toString()
-  //   .substring(2, 4);
-  // year = 
+internals.formatYear = function (year, format) {
+  year = year.toString();
+  switch (format) {
+    case 'YY': return year;
+    case 'YYYY': return '20' + year;
+  }
 };
 
 module.exports.year = function () {
@@ -53,6 +63,15 @@ module.exports.year = function () {
     },
     link: function (scope, element, attributes, controller) {
       element.attr('maxlength', 2);
+      element.attr('minlength', 2);
+      controller.$parsers.unshift(function (year) {
+        var valid = internals.validYear(year);
+        controller.$setValidity('ccExpYear', valid);
+        if (valid) return internals.formatYear(
+          year,
+          scope.yearFormat || 'YY'
+        );
+      });
     }
-  }
+  };
 };

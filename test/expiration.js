@@ -21,46 +21,41 @@ describe('Expiration', function () {
       controller = $compile(element)(scope).controller('ngModel');
     });
 
-    it('sets maxlength to 2', function () {
+    it('sets minlength and maxlength to 2', function () {
       expect(element.attr('maxlength')).to.equal('2');
+      expect(element.attr('minlength')).to.equal('2');
     });
 
     describe('invalid', function () {
 
       it('is invalid when falsy', function () {
-        controller.$setViewValue('');
+        controller.$setViewValue();
         scope.$digest();
-        expect(controller.$invalid).to.be.true;
+        expect(controller.$error.ccExpMonth).to.be.true;
       });
 
       it('is invalid when NaN', function () {
         controller.$setViewValue('a');
         scope.$digest();
-        expect(controller.$invalid).to.be.true;
+        expect(controller.$error.ccExpMonth).to.be.true;
       });
 
       it('is invalid when > 12', function () {
         controller.$setViewValue(13);
         scope.$digest();
-        expect(controller.$invalid).to.be.true;
+        expect(controller.$error.ccExpMonth).to.be.true;
       });
 
       it('is invalid when < 1', function () {
         controller.$setViewValue(0);
         scope.$digest();
-        expect(controller.$invalid).to.be.true;
+        expect(controller.$error.ccExpMonth).to.be.true;
       });
 
       it('unsets the model value when $invalid', function () {
-        controller.$setViewValue('');
+        controller.$setViewValue('ab');
         scope.$digest();
-        expect(scope.expiration.month).to.be.undefined;
-      });
-
-      it('sets an error key', function () {
-        controller.$setViewValue('');
-        scope.$digest();
-        expect(controller.$error.ccExpMonth).to.be.true;
+        expect(scope.expiration.ccExpMonth).to.be.undefined;
       });
 
     });
@@ -98,11 +93,82 @@ describe('Expiration', function () {
       controller = $compile(element)(scope).controller('ngModel');
     }));
 
-    it('sets maxlength to 2', function () {
+    it('sets minlength and maxlength to 2', function () {
       expect(element.attr('maxlength')).to.equal('2');
+      expect(element.attr('minlength')).to.equal('2');
+    });
+
+    describe('invalid', function () {
+
+      it('is invalid when falsy', function () {
+        controller.$setViewValue();
+        scope.$digest();
+        expect(controller.$error.ccExpYear).to.be.true;
+      });
+
+      it('is invalid when NaN', function () {
+        controller.$setViewValue('a');
+        scope.$digest();
+        expect(controller.$error.ccExpYear).to.be.true;
+      });
+
+      it('is invalid when in the past', function () {
+        controller.$setViewValue(13);
+        scope.$digest();
+        expect(controller.$error.ccExpYear).to.be.true;
+      });
+
+      it('unsets the model value when $invalid', function () {
+        controller.$setViewValue('ab');
+        scope.$digest();
+        expect(scope.expiration.ccExpYear).to.be.undefined;
+      });
+
     });
 
     describe('valid', function () {
+
+      var currentYear = new Date()
+        .getFullYear()
+        .toString()
+        .substring(2, 4);
+
+      it('is valid for this year', function () {
+        controller.$setViewValue(currentYear);
+        scope.$digest();
+        expect(controller.$valid).to.be.true;
+        expect(scope.expiration.year).to.equal(currentYear);
+      });
+
+      it('is valid for a far-future year', function () {
+        controller.$setViewValue('99');
+        scope.$digest();
+        expect(controller.$valid).to.be.true;
+      });
+
+      describe('formatting', function () {
+
+        it('converts to a string', function () {
+          controller.$setViewValue(99);
+          scope.$digest();
+          expect(scope.expiration.year).to.equal('99');
+        });
+
+        it('can accept YY (default)', function () {
+          element.isolateScope().yearFormat = 'YY';
+          controller.$setViewValue(99);
+          scope.$digest();
+          expect(scope.expiration.year).to.equal('99');
+        });
+
+        it('can accept YYYY', function () {
+          element.isolateScope().yearFormat = 'YYYY';
+          controller.$setViewValue(99);
+          scope.$digest();
+          expect(scope.expiration.year).to.equal('2099');
+        });
+
+      });
 
     });
 
