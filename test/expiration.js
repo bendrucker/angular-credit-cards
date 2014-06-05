@@ -6,17 +6,20 @@ describe('Expiration', function () {
 
   beforeEach(angular.mock.module('credit-cards'));
 
+  var $compile, scope;
+  beforeEach(angular.mock.inject(function ($injector) {
+    $compile         = $injector.get('$compile');
+    scope            = $injector.get('$rootScope').$new();
+    scope.expiration = {};
+  }));
+
   describe('cc-exp-month', function () {
 
-    var scope, controller;
-    beforeEach(angular.mock.inject(function ($injector) {
-      var $compile     = $injector.get('$compile');
-      var element      = angular.element('<input ng-model="expiration.month" cc-exp-month />');
-      scope            = $injector.get('$rootScope').$new();
-      scope.expiration = {};
-      $compile(element)(scope);
-      controller       = element.controller('ngModel');
-    }));
+    var controller;
+    beforeEach(function () {
+      var element = angular.element('<input ng-model="expiration.month" cc-exp-month />');
+      controller  = $compile(element)(scope).controller('ngModel');
+    });
 
     describe('invalid', function () {
 
@@ -78,6 +81,20 @@ describe('Expiration', function () {
         scope.$digest();
         expect(scope.expiration.month).to.equal('05');
       });
+
+    });
+
+  });
+
+  describe('cc-exp-year', function () {
+
+    var controller;
+    beforeEach(angular.mock.inject(function ($injector) {
+      var element = angular.element('<input ng-model="expiration.year" cc-exp-year />');
+      controller  = $compile(element)(scope).controller('ngModel');
+    }));
+
+    describe('valid', function () {
 
     });
 
