@@ -7,9 +7,9 @@ require('angular')
     'creditCard',
     require('./number')
   ])
-  // .directive('ccExpiration'), require('./expiration'))
-  .directive('ccExpirationMonth', require('./expiration').month)
-  .directive('ccExpirationYear', require('./expiration').year)
+  // .directive('ccExp'), require('./expiration'))
+  .directive('ccExpMonth', require('./expiration').month)
+  .directive('ccExpYear', require('./expiration').year)
   .directive('ccCvc', require('./cvc'));
 
 module.exports = 'credit-cards';

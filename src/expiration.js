@@ -24,7 +24,7 @@ module.exports.month = function () {
     link: function (scope, element, attributes, controller) {
       controller.$parsers.unshift(function (month) {
         var valid = internals.validMonth(month);
-        controller.$setValidity('month', valid);
+        controller.$setValidity('ccExpMonth', valid);
         if (valid) return internals.padMonth(month);
       });
     }
