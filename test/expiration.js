@@ -4,9 +4,9 @@ require('../');
 
 describe('Expiration', function () {
 
-  describe('cc-expiration', function () {
+  beforeEach(angular.mock.module('credit-cards'));
 
-    beforeEach(angular.mock.module('credit-cards'));
+  describe('cc-exp-month', function () {
 
     var scope, controller;
     beforeEach(angular.mock.inject(function ($injector) {
