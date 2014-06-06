@@ -23,8 +23,8 @@ module.exports.month = function () {
     restrict: 'AC',
     require: 'ngModel',
     link: function (scope, element, attributes, controller) {
-      element.attr('maxlength', 2);
-      element.attr('minlength', 2);
+      attributes.$set('maxlength', 2);
+      attributes.$set('minlength', 2);
       controller.$parsers.unshift(function (month) {
         var valid = internals.validMonth(month);
         controller.$setValidity('ccExpMonth', valid);
@@ -62,8 +62,8 @@ module.exports.year = function () {
       yearFormat: '@'
     },
     link: function (scope, element, attributes, controller) {
-      element.attr('maxlength', 2);
-      element.attr('minlength', 2);
+      attributes.$set('maxlength', 2);
+      attributes.$set('minlength', 2);
       controller.$parsers.unshift(function (year) {
         var valid = internals.validYear(year);
         controller.$setValidity('ccExpYear', valid);
