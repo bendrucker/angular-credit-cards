@@ -172,4 +172,64 @@ describe('Expiration', function () {
 
   });
 
+  describe('cc-exp', function () {
+
+    var form, formController, element, controller, today;
+    beforeEach(function () {
+      form           = angular.element('<form><div cc-exp><input ng-model="expiration.month" cc-exp-month /><input ng-model="expiration.month" cc-exp-month /></div></form>');
+      formController = $compile(form)(scope).controller('form');
+      element        = form.children();
+      controller     = element.controller('ccExp');
+      today          = new Date();
+    });
+
+    describe('valid', function () {
+
+      it('is valid for a valid future month/year', function () {
+        controller.$set('month', '12');
+        controller.$set('year', '99');
+        expect(formController.$error.ccExpiration).to.be.false;
+      });
+
+      it('is valid for a valid future month/year with YYYY', function () {
+        controller.$set('month', '12');
+        controller.$set('year', '2099');
+        expect(formController.$error.ccExpiration).to.be.false;
+      });
+
+      it('is valid the current month', function () {
+        controller.$set('month', (today.getMonth() + 1).toString());
+        controller.$set('year', today.getFullYear.toString());
+        expect(formController.$error.ccExpiration).to.be.false;
+      });
+
+    });
+
+    describe('invalid', function () {
+
+      it('is invalid when either the month or year are falsy', function () {
+        controller.$set('month');
+        expect(formController.$error.ccExpiration).to.contain(element);
+      });
+
+      it('is invalid for a past month this year', function () {
+        // 0 would never make it to month, but it's easier to test
+        controller.$set('month', '0');
+        controller.$set('year', today.getFullYear().toString());
+        expect(formController.$error.ccExpiration).to.contain(element);
+      });
+
+    });
+
+    it('is a noop with no form', function () {
+      element = angular.element('<div cc-exp><input ng-model="expiration.month" cc-exp-month /><input ng-model="expiration.month" cc-exp-month /></div>');
+      var controller = $compile(element)(scope).controller('ccExp');
+      expect(function () {
+        controller.$set('month', '12')
+      })
+      .to.not.throw();
+    });
+
+  });
+
 });

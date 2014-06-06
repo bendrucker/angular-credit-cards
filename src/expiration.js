@@ -2,9 +2,41 @@
 
 var internals = {};
 
-// module.exports = function () {
+module.exports = function () {
+  return {
+    restrict: 'AEC',
+    require: ['?^form'],
+    controller: ['$element', function (element) {
+      var parentForm = element.inheritedData('$formController');
 
-// };
+      var expiration = {};
+
+      this.$set = function (key, value) {
+        if (key) expiration[key] = value;
+        checkValidity();
+      };
+
+      var checkValidity = function () {
+        var valid;
+        var month = expiration.month;
+        var year = expiration.year;
+        var today = new Date();
+        if (!month || !year) {
+          valid = false;
+        }
+        else if (parseInt(year.length === 4 ? year : '20' + year) > today.getFullYear()) {
+          valid = true;
+        }
+        else if (parseInt(month) >= today.getMonth() + 1) {
+          valid = true;
+        } else {
+          valid = false;
+        }
+        if (parentForm) return parentForm.$setValidity('ccExpiration', valid, element);
+      };
+    }]
+  }
+};
 
 internals.validMonth = function (month) {
   if (!month) return false;
