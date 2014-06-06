@@ -35,7 +35,7 @@ module.exports = function () {
         if (parentForm) return parentForm.$setValidity('ccExpiration', valid, element);
       };
     }]
-  }
+  };
 };
 
 internals.validMonth = function (month) {
@@ -53,13 +53,22 @@ internals.padMonth = function (month) {
 module.exports.month = function () {
   return {
     restrict: 'AC',
-    require: 'ngModel',
-    link: function (scope, element, attributes, controller) {
+    require: ['ngModel', '^?ccExp'],
+    link: function (scope, element, attributes, controllers) {
+      var ngModelController = controllers[0];
+      var ccExpController = controllers[1];
       attributes.$set('maxlength', 2);
-      controller.$parsers.unshift(function (month) {
+      ngModelController.$parsers.unshift(function (month) {
         var valid = internals.validMonth(month);
-        controller.$setValidity('ccExpMonth', valid);
-        if (valid) return internals.padMonth(month);
+        ngModelController.$setValidity('ccExpMonth', valid);
+        if (valid) {
+          month = internals.padMonth(month);
+          if (ccExpController) ccExpController.$set('month', month);
+          return month;
+        }
+        else {
+          if (ccExpController) ccExpController.$set('month');
+        }
       });
     }
   };
@@ -88,19 +97,27 @@ internals.formatYear = function (year, format) {
 module.exports.year = function () {
   return {
     restrict: 'AC',
-    require: 'ngModel',
+    require: ['ngModel', '^?ccExp'],
     scope: {
       yearFormat: '@'
     },
-    link: function (scope, element, attributes, controller) {
+    link: function (scope, element, attributes, controllers) {
       attributes.$set('maxlength', 2);
-      controller.$parsers.unshift(function (year) {
+      var ngModelController = controllers[0];
+      var ccExpController = controllers[1];
+      ngModelController.$parsers.unshift(function (year) {
         var valid = internals.validYear(year);
-        controller.$setValidity('ccExpYear', valid);
-        if (valid) return internals.formatYear(
-          year,
-          scope.yearFormat || 'YY'
-        );
+        ngModelController.$setValidity('ccExpYear', valid);
+        if (valid) {
+          year = internals.formatYear(
+            year,
+            scope.yearFormat || 'YY'
+          );
+          if (ccExpController) ccExpController.$set('year', year);
+          return year;
+        } else {
+          if (ccExpController) ccExpController.$set('year');
+        }
       });
     }
   };

@@ -6,12 +6,17 @@ describe('Expiration', function () {
 
   beforeEach(angular.mock.module('credit-cards'));
 
-  var $compile, scope;
+  var $compile, scope, sandbox;
   beforeEach(angular.mock.inject(function ($injector) {
     $compile         = $injector.get('$compile');
     scope            = $injector.get('$rootScope').$new();
     scope.expiration = {};
+    sandbox          = sinon.sandbox.create();
   }));
+
+  afterEach(function () {
+    sandbox.restore();
+  });
 
   describe('cc-exp-month', function () {
 
@@ -57,6 +62,17 @@ describe('Expiration', function () {
         expect(scope.expiration.ccExpMonth).to.be.undefined;
       });
 
+      it('unsets the value on cc-exp', function () {
+        element    = angular.element('<div cc-exp><input ng-model="expiration.month" cc-exp-month /></div>');
+        controller = $compile(element)(scope).children().controller('ngModel');
+
+        var ccExpController = element.controller('ccExp');
+
+        sinon.stub(ccExpController, '$set');
+        controller.$setViewValue();
+        expect(ccExpController.$set).to.have.been.calledWith('month', undefined);
+      });
+
     });
 
     describe('valid', function () {
@@ -78,6 +94,17 @@ describe('Expiration', function () {
         controller.$setViewValue(5);
         scope.$digest();
         expect(scope.expiration.month).to.equal('05');
+      });
+
+      it('sets the value on cc-exp', function () {
+        element    = angular.element('<div cc-exp><input ng-model="expiration.month" cc-exp-month /></div>');
+        controller = $compile(element)(scope).children().controller('ngModel');
+
+        var ccExpController = element.controller('ccExp');
+
+        sinon.stub(ccExpController, '$set');
+        controller.$setViewValue('12');
+        expect(ccExpController.$set).to.have.been.calledWith('month', '12');
       });
 
     });
@@ -122,6 +149,17 @@ describe('Expiration', function () {
         expect(scope.expiration.ccExpYear).to.be.undefined;
       });
 
+      it('unsets the value on cc-exp', function () {
+        element    = angular.element('<div cc-exp><input ng-model="expiration.year" cc-exp-year /></div>');
+        controller = $compile(element)(scope).children().controller('ngModel');
+
+        var ccExpController = element.controller('ccExp');
+
+        sinon.stub(ccExpController, '$set');
+        controller.$setViewValue();
+        expect(ccExpController.$set).to.have.been.calledWith('year', undefined);
+      });
+
     });
 
     describe('valid', function () {
@@ -142,6 +180,17 @@ describe('Expiration', function () {
         controller.$setViewValue('99');
         scope.$digest();
         expect(controller.$valid).to.be.true;
+      });
+
+      it('sets the value on cc-exp', function () {
+        element    = angular.element('<div cc-exp><input ng-model="expiration.year" cc-exp-year /></div>');
+        controller = $compile(element)(scope).children().controller('ngModel');
+
+        var ccExpController = element.controller('ccExp');
+
+        sinon.stub(ccExpController, '$set');
+        controller.$setViewValue('99');
+        expect(ccExpController.$set).to.have.been.calledWith('year', '99');
       });
 
       describe('formatting', function () {
