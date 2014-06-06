@@ -21,9 +21,8 @@ describe('Expiration', function () {
       controller = $compile(element)(scope).controller('ngModel');
     });
 
-    it('sets minlength and maxlength to 2', function () {
+    it('sets maxlength to 2', function () {
       expect(element.attr('maxlength')).to.equal('2');
-      expect(element.attr('minlength')).to.equal('2');
     });
 
     describe('invalid', function () {
@@ -93,9 +92,8 @@ describe('Expiration', function () {
       controller = $compile(element)(scope).controller('ngModel');
     }));
 
-    it('sets minlength and maxlength to 2', function () {
+    it('sets maxlength to 2', function () {
       expect(element.attr('maxlength')).to.equal('2');
-      expect(element.attr('minlength')).to.equal('2');
     });
 
     describe('invalid', function () {
