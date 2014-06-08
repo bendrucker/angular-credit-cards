@@ -30,6 +30,17 @@ describe('Expiration', function () {
       expect(element.attr('maxlength')).to.equal('2');
     });
 
+    it('passes changes to cc-exp', function () {
+      element    = angular.element('<div cc-exp><input ng-model="expiration.month" cc-exp-month /></div>');
+      controller = $compile(element)(scope).children().controller('ngModel');
+
+      var ccExpController = element.controller('ccExp');
+
+      sinon.stub(ccExpController, 'set');
+      controller.$setViewValue(99);
+      expect(ccExpController.set).to.have.been.calledWith('month', sinon.match.has('value', 99));
+    });
+
     describe('invalid', function () {
 
       it('is invalid when falsy', function () {
@@ -62,17 +73,6 @@ describe('Expiration', function () {
         expect(scope.expiration.ccExpMonth).to.be.undefined;
       });
 
-      it('unsets the value on cc-exp', function () {
-        element    = angular.element('<div cc-exp><input ng-model="expiration.month" cc-exp-month /></div>');
-        controller = $compile(element)(scope).children().controller('ngModel');
-
-        var ccExpController = element.controller('ccExp');
-
-        sinon.stub(ccExpController, '$set');
-        controller.$setViewValue();
-        expect(ccExpController.$set).to.have.been.calledWith('month', undefined);
-      });
-
     });
 
     describe('valid', function () {
@@ -96,17 +96,6 @@ describe('Expiration', function () {
         expect(scope.expiration.month).to.equal('05');
       });
 
-      it('sets the value on cc-exp', function () {
-        element    = angular.element('<div cc-exp><input ng-model="expiration.month" cc-exp-month /></div>');
-        controller = $compile(element)(scope).children().controller('ngModel');
-
-        var ccExpController = element.controller('ccExp');
-
-        sinon.stub(ccExpController, '$set');
-        controller.$setViewValue('12');
-        expect(ccExpController.$set).to.have.been.calledWith('month', '12');
-      });
-
     });
 
   });
@@ -121,6 +110,17 @@ describe('Expiration', function () {
 
     it('sets maxlength to 2', function () {
       expect(element.attr('maxlength')).to.equal('2');
+    });
+
+    it('passes the value to cc-exp', function () {
+      element    = angular.element('<div cc-exp><input ng-model="expiration.year" cc-exp-year /></div>');
+      controller = $compile(element)(scope).children().controller('ngModel');
+
+      var ccExpController = element.controller('ccExp');
+
+      sinon.stub(ccExpController, 'set');
+      controller.$setViewValue(99);
+      expect(ccExpController.set).to.have.been.calledWith('year', sinon.match.has('value', 99));
     });
 
     describe('invalid', function () {
@@ -149,17 +149,6 @@ describe('Expiration', function () {
         expect(scope.expiration.ccExpYear).to.be.undefined;
       });
 
-      it('unsets the value on cc-exp', function () {
-        element    = angular.element('<div cc-exp><input ng-model="expiration.year" cc-exp-year /></div>');
-        controller = $compile(element)(scope).children().controller('ngModel');
-
-        var ccExpController = element.controller('ccExp');
-
-        sinon.stub(ccExpController, '$set');
-        controller.$setViewValue();
-        expect(ccExpController.$set).to.have.been.calledWith('year', undefined);
-      });
-
     });
 
     describe('valid', function () {
@@ -180,17 +169,6 @@ describe('Expiration', function () {
         controller.$setViewValue('99');
         scope.$digest();
         expect(controller.$valid).to.be.true;
-      });
-
-      it('sets the value on cc-exp', function () {
-        element    = angular.element('<div cc-exp><input ng-model="expiration.year" cc-exp-year /></div>');
-        controller = $compile(element)(scope).children().controller('ngModel');
-
-        var ccExpController = element.controller('ccExp');
-
-        sinon.stub(ccExpController, '$set');
-        controller.$setViewValue('99');
-        expect(ccExpController.$set).to.have.been.calledWith('year', '99');
       });
 
       describe('formatting', function () {
@@ -235,21 +213,15 @@ describe('Expiration', function () {
     describe('valid', function () {
 
       it('is valid for a valid future month/year', function () {
-        controller.$set('month', '12');
-        controller.$set('year', '99');
-        expect(formController.$error.ccExpiration).to.be.false;
-      });
-
-      it('is valid for a valid future month/year with YYYY', function () {
-        controller.$set('month', '12');
-        controller.$set('year', '2099');
-        expect(formController.$error.ccExpiration).to.be.false;
+        controller.set('month', '12');
+        controller.set('year', '99');
+        expect(formController.$error.ccExp).to.be.false;
       });
 
       it('is valid the current month', function () {
-        controller.$set('month', (today.getMonth() + 1).toString());
-        controller.$set('year', today.getFullYear.toString());
-        expect(formController.$error.ccExpiration).to.be.false;
+        controller.set('month', (today.getMonth() + 1).toString());
+        controller.set('year', today.getFullYear().toString().substring(2, 4));
+        expect(formController.$error.ccExp).to.be.false;
       });
 
     });
@@ -257,15 +229,15 @@ describe('Expiration', function () {
     describe('invalid', function () {
 
       it('is invalid when either the month or year are falsy', function () {
-        controller.$set('month');
-        expect(formController.$error.ccExpiration).to.contain(element);
+        controller.set('month');
+        expect(formController.$error.ccExp).to.contain(element);
       });
 
       it('is invalid for a past month this year', function () {
         // 0 would never make it to month, but it's easier to test
-        controller.$set('month', '0');
-        controller.$set('year', today.getFullYear().toString());
-        expect(formController.$error.ccExpiration).to.contain(element);
+        controller.set('month', '0');
+        controller.set('year', today.getFullYear().toString().substring(2, 4));
+        expect(formController.$error.ccExp).to.contain(element);
       });
 
     });
@@ -274,7 +246,7 @@ describe('Expiration', function () {
       element = angular.element('<div cc-exp><input ng-model="expiration.month" cc-exp-month /><input ng-model="expiration.month" cc-exp-month /></div>');
       var controller = $compile(element)(scope).controller('ccExp');
       expect(function () {
-        controller.$set('month', '12')
+        controller.set('month', '12')
       })
       .to.not.throw();
     });
