@@ -24,52 +24,6 @@ internals.Date.prototype.isFuture = function () {
   return this.year.isValid() && this.month.isValid() && this.month.month > internals.Date.today().month;
 };
 
-internals.Month = function (value) {
-  this.set(value);
-};
-
-internals.Month.prototype.set = function (value) {
-  this.value = value;
-  this.month = parseInt(value);
-};
-
-internals.Month.prototype.isValid = function () {
-  return !isNaN(this.month) && this.month >= 1 && this.month <= 12;
-};
-
-internals.Month.prototype.format = function (pad) {
-  if (!this.isValid()) return;
-  var month = this.month.toString();
-  if (!pad) return month;
-  return month.length === 2 ? month : '0' + month;
-};
-
-internals.Year = function (value) {
-  this.set(value);
-};
-
-internals.Year.prototype.set = function (value) {
-  this.value = value;
-  this.year = parseInt('20' + value);
-};
-
-internals.Year.prototype.isValid = function () {
-  return this.year && !isNaN(this.year) && this.year >= internals.Date.today().year;
-};
-
-internals.Year.prototype.isCurrent = function () {
-  return this.year === internals.Date.today().year;
-};
-
-internals.Year.prototype.format = function (length) {
-  if (!this.isValid()) return;
-  var year = this.year.toString();
-  switch (length) {
-    case 4: return year;
-    default: return year.substring(2, 4);
-  }
-};
-
 module.exports = function () {
   return {
     restrict: 'AEC',
@@ -101,6 +55,26 @@ internals.nullCcExpCtrl = {
   set: angular.noop
 };
 
+internals.Month = function (value) {
+  this.set(value);
+};
+
+internals.Month.prototype.set = function (value) {
+  this.value = value;
+  this.month = parseInt(value);
+};
+
+internals.Month.prototype.isValid = function () {
+  return !isNaN(this.month) && this.month >= 1 && this.month <= 12;
+};
+
+internals.Month.prototype.format = function (pad) {
+  if (!this.isValid()) return;
+  var month = this.month.toString();
+  if (!pad) return month;
+  return month.length === 2 ? month : '0' + month;
+};
+
 module.exports.month = function () {
   return {
     restrict: 'AC',
@@ -117,6 +91,32 @@ module.exports.month = function () {
       });
     }
   };
+};
+
+internals.Year = function (value) {
+  this.set(value);
+};
+
+internals.Year.prototype.set = function (value) {
+  this.value = value;
+  this.year = parseInt('20' + value);
+};
+
+internals.Year.prototype.isValid = function () {
+  return this.year && !isNaN(this.year) && this.year >= internals.Date.today().year;
+};
+
+internals.Year.prototype.isCurrent = function () {
+  return this.year === internals.Date.today().year;
+};
+
+internals.Year.prototype.format = function (length) {
+  if (!this.isValid()) return;
+  var year = this.year.toString();
+  switch (length) {
+    case 4: return year;
+    default: return year.substring(2, 4);
+  }
 };
 
 module.exports.year = function () {
