@@ -4,10 +4,10 @@ describe('cc-number', function () {
 
   beforeEach(angular.mock.module(require('../')));
 
-  var creditCard, scope, controller, sandbox;
+  var element, creditCard, scope, controller, sandbox;
   beforeEach(angular.mock.inject(function ($injector) {
     var $compile = $injector.get('$compile');
-    var element  = angular.element('<input ng-model="card.number" cc-number />');
+    element      = angular.element('<input ng-model="card.number" cc-number />');
     sandbox      = sinon.sandbox.create();
     creditCard   = $injector.get('creditCard');
     scope        = $injector.get('$rootScope').$new();
@@ -57,5 +57,42 @@ describe('cc-number', function () {
     });
 
   });
+
+  describe('type', function () {
+
+    var ccNumberController;
+    beforeEach(function () {
+      ccNumberController = element.controller('ccNumber');
+    });
+
+    it('sets the card type on the model controller', function () {
+      sandbox.stub(creditCard, 'cardscheme').returns('American Express');
+      sandbox.spy(ccNumberController, 'setType')
+      controller.$setViewValue('');
+      scope.$digest();
+      expect(ccNumberController.setType).to.have.been.calledWith('American Express');
+      expect(controller.cardType).to.equal('American Express');
+    });
+
+    it('adds a class name for the card', function () {
+      ccNumberController.setType('American Express');
+      expect(element.hasClass('cc-american-express')).to.be.true;
+    });
+
+    it('removes the class name when the value changes', function () {
+      ccNumberController.setType('cc-american-express');
+      ccNumberController.setType();
+      expect(element.hasClass('cc-american-express')).to.be.false;
+    });
+
+    it('syncs the type with the ngModelController', function () {
+      ccNumberController.type = 'Visa';
+      scope.$digest();
+      expect(controller.cardType).to.equal('Visa');
+    });
+
+  });
+
+  
 
 });

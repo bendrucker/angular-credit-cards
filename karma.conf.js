@@ -34,7 +34,8 @@ module.exports = function(config) {
     },
 
     browserify: {
-      debug: true
+      debug: true,
+      transform: ['browserify-shim']
     },
 
 
