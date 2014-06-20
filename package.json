@@ -4,7 +4,7 @@
   "description": "Angular directives for formatting and validating credit card inputs",
   "main": "src/module.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start --single-run"
   },
   "repository": {
     "type": "git",
@@ -49,11 +49,6 @@
     ]
   },
   "browserify-shim": {
-    "angular": "global:angular",
-    "angular-mocks": {
-      "depends": [
-        "angular"
-      ]
-    }
+    "angular": "global:angular"
   }
 }
