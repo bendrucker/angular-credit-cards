@@ -1,10 +1,8 @@
 'use strict';
 
-require('../');
-
 describe('cc-cvc', function () {
 
-  beforeEach(angular.mock.module('credit-cards'));
+  beforeEach(angular.mock.module(require('../')));
 
   var $compile, scope, controller, element;
   beforeEach(angular.mock.inject(function ($injector) {

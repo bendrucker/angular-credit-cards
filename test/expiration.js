@@ -1,10 +1,8 @@
 'use strict';
 
-require('../');
-
 describe('Expiration', function () {
 
-  beforeEach(angular.mock.module('credit-cards'));
+  beforeEach(angular.mock.module(require('../')));
 
   var $compile, scope, sandbox;
   beforeEach(angular.mock.inject(function ($injector) {
