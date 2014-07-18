@@ -82,6 +82,8 @@ module.exports.month = function () {
     require: ['ngModel', '^?ccExp'],
     compile: function (element, attributes) {
       attributes.$set('maxlength', 2);
+      attributes.$set('pattern', '[0-9]*');
+      
       return function (scope, element, attributes, controllers) {
         var ngModelCtrl = controllers[0];
         var ccExpCtrl = controllers[1] || internals.nullCcExpCtrl;

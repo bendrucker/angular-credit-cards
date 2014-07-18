@@ -28,6 +28,10 @@ describe('Expiration', function () {
       expect(element.attr('maxlength')).to.equal('2');
     });
 
+    it('adds a numeric pattern', function () {
+      expect(element.attr('pattern')).to.equal('[0-9]*');
+    });
+
     it('passes changes to cc-exp', function () {
       element    = angular.element('<div cc-exp><input ng-model="expiration.month" cc-exp-month /></div>');
       controller = $compile(element)(scope).children().controller('ngModel');
