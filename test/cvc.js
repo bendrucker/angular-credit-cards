@@ -17,56 +17,30 @@ describe('cc-cvc', function () {
     expect(element.attr('maxlength')).to.equal('4');
   });
 
-  describe('invalid', function () {
-
-    it('is invalid when falsy', function () {
-      controller.$setViewValue();
-      scope.$digest();
-      expect(controller.$error.ccCvc).to.be.true;      
-    });
-
-    it('is invalid when less than 3 characters', function () {
-      controller.$setViewValue(12);
-      scope.$digest();
-      expect(controller.$error.ccCvc).to.be.true;
-    });
-
-    it('is invalid when more than 4 characters', function () {
-      controller.$setViewValue(12345);
-      scope.$digest();
-      expect(controller.$error.ccCvc).to.be.true;
-    });
-
-    it('is invalid when NaN', function () {
-      controller.$setViewValue('abc');
-      scope.$digest();
-      expect(controller.$error.ccCvc).to.be.true;
-    });
-
-    it('unsets the model value', function () {
-      controller.$setViewValue();
-      scope.$digest();
-      expect(scope.card.cvc).to.be.undefined;
-    });
-
+  it('accepts a 3 digit numeric', function () {
+    controller.$setViewValue('123');
+    scope.$digest();
+    expect(controller.$valid).to.be.true;
+    expect(scope.card.cvc).to.equal('123');
   });
 
-  describe('valid', function () {
+  it('accepts a 4 digit numeric string', function () {
+    controller.$setViewValue('1234');
+    scope.$digest();
+    expect(controller.$valid).to.be.true;
+    expect(scope.card.cvc).to.equal('1234');
+  });
 
-    it('accepts a 3 digit number', function () {
-      controller.$setViewValue(123);
-      scope.$digest();
-      expect(controller.$valid).to.be.true;
-      expect(scope.card.cvc).to.equal('123');
-    });
+  it('does not accept numbers', function () {
+    controller.$setViewValue(123);
+    scope.$digest();
+    expect(controller.$valid).to.be.false;
+  });
 
-    it('accepts a 4 digit number', function () {
-      controller.$setViewValue(1234);
-      scope.$digest();
-      expect(controller.$valid).to.be.true;
-      expect(scope.card.cvc).to.equal('1234');
-    });
-
+  it('unsets the model value when invalid', function () {
+    controller.$setViewValue('abc');
+    scope.$digest();
+    expect(scope.card.cvc).to.be.undefined;
   });
 
 });

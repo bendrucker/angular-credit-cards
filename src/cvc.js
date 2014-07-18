@@ -1,25 +1,20 @@
 'use strict';
 
-var internals = {};
-
-internals.validate = function (cvc) {
-  return /^\d+$/.test(cvc) && cvc.length >= 3 && cvc.length <= 4;
-};
+var cvc = require('creditcards').cvc;
 
 module.exports = function () {
   return {
-    restrict: 'AC',
+    restrict: 'A',
     require: 'ngModel',
-    link: function (scope, elements, attributes, controller) {
-      attributes.$set('minlength', 3);
+    compile: function (element, attributes) {
       attributes.$set('maxlength', 4);
-
-      controller.$parsers.unshift(function (cvc) {
-        cvc = cvc && cvc.toString();
-        var valid = internals.validate(cvc);
-        controller.$setValidity('ccCvc', valid);
-        if (valid) return cvc.toString();
-      });
+      return function (scope, element, attributes, ngModelController) {
+        ngModelController.$parsers.unshift(function (value) {
+          var valid = cvc.isValid(value);
+          ngModelController.$setValidity('ccCvc', valid);
+          if (valid) return value;
+        });
+      };
     }
-  }
+  };
 };
