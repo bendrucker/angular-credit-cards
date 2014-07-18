@@ -83,13 +83,15 @@ module.exports.month = function () {
     compile: function (element, attributes) {
       attributes.$set('maxlength', 2);
       attributes.$set('pattern', '[0-9]*');
-      
+
       return function (scope, element, attributes, controllers) {
         var ngModelCtrl = controllers[0];
         var ccExpCtrl = controllers[1] || internals.nullCcExpCtrl;
         ngModelCtrl.$parsers.unshift(function (month) {
           month = expiration.month.parse(month);
-          ngModelCtrl.$setValidity('ccExpMonth', expiration.month.isValid(month));
+          var valid = expiration.month.isValid(month);
+          ngModelCtrl.$setValidity('ccExpMonth', valid);
+          if (!valid) month = void 0;
           ccExpCtrl.set('month', month);
           return month;
         });
@@ -128,19 +130,22 @@ module.exports.year = function () {
   return {
     restrict: 'AC',
     require: ['ngModel', '^?ccExp'],
-    scope: {
-      yearFormat: '@'
-    },
-    link: function (scope, element, attributes, controllers) {
+    compile: function (element, attributes) {
       attributes.$set('maxlength', 2);
-      var ngModelCtrl = controllers[0];
-      var ccExpCtrl = controllers[1] || internals.nullCcExpCtrl;
-      ngModelCtrl.$parsers.unshift(function (year) {
-        year = new internals.Year(year);
-        ngModelCtrl.$setValidity('ccExpYear', year.isValid());
-        ccExpCtrl.set('year', year);
-        return year.format(scope.yearFormat && scope.yearFormat.length);
-      });
+      attributes.$set('pattern', '[0-9]*');
+
+      return function (scope, element, attributes, controllers) {
+        var ngModelCtrl = controllers[0];
+        var ccExpCtrl = controllers[1] || internals.nullCcExpCtrl;
+        ngModelCtrl.$parsers.unshift(function (year) {
+          year = expiration.year.parse(year, true);
+          var valid = expiration.year.isValid(year) && expiration.year.isFuture(year);
+          ngModelCtrl.$setValidity('ccExpYear', valid);
+          if (!valid) year = void 0;
+          ccExpCtrl.set('year', year);
+          return year;
+        });
+      };
     }
   };
 };

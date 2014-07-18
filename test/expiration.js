@@ -39,8 +39,8 @@ describe('Expiration', function () {
       var ccExpController = element.controller('ccExp');
 
       sinon.stub(ccExpController, 'set');
-      controller.$setViewValue(99);
-      expect(ccExpController.set).to.have.been.calledWith('month', 99);
+      controller.$setViewValue('12');
+      expect(ccExpController.set).to.have.been.calledWith('month', 12);
     });
 
     it('is accepts a valid month string', function () {
@@ -83,6 +83,10 @@ describe('Expiration', function () {
       expect(element.attr('maxlength')).to.equal('2');
     });
 
+    it('adds a numeric pattern', function () {
+      expect(element.attr('pattern')).to.equal('[0-9]*');
+    });
+
     it('passes the value to cc-exp', function () {
       element    = angular.element('<div cc-exp><input ng-model="expiration.year" cc-exp-year /></div>');
       controller = $compile(element)(scope).children().controller('ngModel');
@@ -90,8 +94,8 @@ describe('Expiration', function () {
       var ccExpController = element.controller('ccExp');
 
       sinon.stub(ccExpController, 'set');
-      controller.$setViewValue(99);
-      expect(ccExpController.set).to.have.been.calledWith('year', sinon.match.has('value', 99));
+      controller.$setViewValue('99');
+      expect(ccExpController.set).to.have.been.calledWith('year', 2099);
     });
 
     describe('invalid', function () {
@@ -133,7 +137,7 @@ describe('Expiration', function () {
         controller.$setViewValue(currentYear);
         scope.$digest();
         expect(controller.$valid).to.be.true;
-        expect(scope.expiration.year).to.equal(currentYear);
+        expect(scope.expiration.year).to.equal(new Date().getFullYear());
       });
 
       it('is valid for a far-future year', function () {
@@ -142,28 +146,10 @@ describe('Expiration', function () {
         expect(controller.$valid).to.be.true;
       });
 
-      describe('formatting', function () {
-
-        it('converts to a string', function () {
-          controller.$setViewValue(99);
-          scope.$digest();
-          expect(scope.expiration.year).to.equal('99');
-        });
-
-        it('can accept YY (default)', function () {
-          element.isolateScope().yearFormat = 'YY';
-          controller.$setViewValue(99);
-          scope.$digest();
-          expect(scope.expiration.year).to.equal('99');
-        });
-
-        it('can accept YYYY', function () {
-          element.isolateScope().yearFormat = 'YYYY';
-          controller.$setViewValue(99);
-          scope.$digest();
-          expect(scope.expiration.year).to.equal('2099');
-        });
-
+      it('is not valid for a past year', function () {
+        controller.$setViewValue('13');
+        scope.$digest();
+        expect(controller.$valid).to.be.false;
       });
 
     });
