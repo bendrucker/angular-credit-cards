@@ -1,7 +1,8 @@
 'use strict';
 
-var angular   = require('angular');
-var internals = {};
+var expiration = require('creditcards').expiration;
+var angular    = require('angular');
+var internals  = {};
 
 internals.Date = function (month, year) {
   this.month = new internals.Month(month);
@@ -77,18 +78,20 @@ internals.Month.prototype.format = function (pad) {
 
 module.exports.month = function () {
   return {
-    restrict: 'AC',
+    restrict: 'A',
     require: ['ngModel', '^?ccExp'],
-    link: function (scope, element, attributes, controllers) {
-      var ngModelCtrl = controllers[0];
-      var ccExpCtrl = controllers[1] || internals.nullCcExpCtrl;
+    compile: function (element, attributes) {
       attributes.$set('maxlength', 2);
-      ngModelCtrl.$parsers.unshift(function (month) {
-        month = new internals.Month(month);
-        ngModelCtrl.$setValidity('ccExpMonth', month.isValid());
-        ccExpCtrl.set('month', month);
-        return month.format(true);
-      });
+      return function (scope, element, attributes, controllers) {
+        var ngModelCtrl = controllers[0];
+        var ccExpCtrl = controllers[1] || internals.nullCcExpCtrl;
+        ngModelCtrl.$parsers.unshift(function (month) {
+          month = expiration.month.parse(month);
+          ngModelCtrl.$setValidity('ccExpMonth', expiration.month.isValid(month));
+          ccExpCtrl.set('month', month);
+          return month;
+        });
+      };
     }
   };
 };

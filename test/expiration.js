@@ -36,64 +36,33 @@ describe('Expiration', function () {
 
       sinon.stub(ccExpController, 'set');
       controller.$setViewValue(99);
-      expect(ccExpController.set).to.have.been.calledWith('month', sinon.match.has('value', 99));
+      expect(ccExpController.set).to.have.been.calledWith('month', 99);
     });
 
-    describe('invalid', function () {
-
-      it('is invalid when falsy', function () {
-        controller.$setViewValue();
-        scope.$digest();
-        expect(controller.$error.ccExpMonth).to.be.true;
-      });
-
-      it('is invalid when NaN', function () {
-        controller.$setViewValue('a');
-        scope.$digest();
-        expect(controller.$error.ccExpMonth).to.be.true;
-      });
-
-      it('is invalid when > 12', function () {
-        controller.$setViewValue(13);
-        scope.$digest();
-        expect(controller.$error.ccExpMonth).to.be.true;
-      });
-
-      it('is invalid when < 1', function () {
-        controller.$setViewValue(0);
-        scope.$digest();
-        expect(controller.$error.ccExpMonth).to.be.true;
-      });
-
-      it('unsets the model value when $invalid', function () {
-        controller.$setViewValue('ab');
-        scope.$digest();
-        expect(scope.expiration.ccExpMonth).to.be.undefined;
-      });
-
+    it('is accepts a valid month string', function () {
+      controller.$setViewValue('05');
+      scope.$digest();
+      expect(controller.$valid).to.be.true;
+      expect(scope.expiration.month).to.equal(5);
     });
 
-    describe('valid', function () {
+    it('is accepts a valid month number', function () {
+      controller.$setViewValue(5);
+      scope.$digest();
+      expect(controller.$valid).to.be.true;
+      expect(scope.expiration.month).to.equal(5);
+    });
 
-      it('is valid for any valid month', function () {
-        controller.$setViewValue('05');
-        scope.$digest();
-        expect(controller.$valid).to.be.true;
-        expect(scope.expiration.month).to.equal('05');
-      });
+    it('is invalid when falsy', function () {
+      controller.$setViewValue();
+      scope.$digest();
+      expect(controller.$error.ccExpMonth).to.be.true;
+    });
 
-      it('is converts months to strings', function () {
-        controller.$setViewValue(12);
-        scope.$digest();
-        expect(scope.expiration.month).to.equal('12');
-      });
-
-      it('pads months with a leading 0', function () {
-        controller.$setViewValue(5);
-        scope.$digest();
-        expect(scope.expiration.month).to.equal('05');
-      });
-
+    it('unsets the model value when $invalid', function () {
+      controller.$setViewValue('ab');
+      scope.$digest();
+      expect(scope.expiration.ccExpMonth).to.be.undefined;
     });
 
   });
