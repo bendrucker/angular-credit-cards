@@ -9,7 +9,7 @@ describe('cc-number', function () {
   var element, scope, controller;
   beforeEach(angular.mock.inject(function ($injector) {
     var $compile = $injector.get('$compile');
-    element      = angular.element('<input ng-model="card.number" cc-number />');
+    element      = angular.element('<input ng-model="card.number" cc-number cc-type="cardType" />');
     scope        = $injector.get('$rootScope').$new();
     scope.card   = {};
     $compile(element)(scope);
@@ -26,10 +26,24 @@ describe('cc-number', function () {
     expect(scope.card.number).to.equal('4242424242424242');
   });
 
+  it('accepts a valid card with specified type', function () {
+    scope.cardType = 'Visa';
+    controller.$setViewValue('4242 4242 4242 4242');
+    scope.$digest();
+    expect(controller.$error.ccNumberType).to.be.false;
+  });
+
   it('rejects an invalid card', function () {
     controller.$setViewValue('4242424242424241');
     expect(controller.$valid).to.be.false;
     expect(scope.card.number).to.be.undefined;
+  });
+
+  it('rejects an invalid card when the type is a mismatch', function () {
+    scope.cardType = 'American Express';
+    controller.$setViewValue('4242 4242 4242 4242');
+    scope.$digest();
+    expect(controller.$error.ccNumberType).to.be.true;
   });
 
   describe('$type', function () {
@@ -37,10 +51,17 @@ describe('cc-number', function () {
     var ccNumberController;
     beforeEach(function () {
       ccNumberController = element.controller('ccNumber');
+      scope.$digest();
     });
 
-    it('exposes the card type', function () {
+    it('exposes a calculated card type', function () {
       controller.$setViewValue('4242424242424242');
+      scope.$digest();
+      expect(ccNumberController.$type).to.equal('Visa');
+    });
+
+    it('exposes a specified card type', function () {
+      scope.cardType = 'Visa';
       scope.$digest();
       expect(ccNumberController.$type).to.equal('Visa');
     });

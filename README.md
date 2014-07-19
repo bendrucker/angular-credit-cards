@@ -24,18 +24,29 @@ All directives apply a [numeric input pattern](http://bradfrostweb.com/blog/mobi
 ### Card Number (`cc-number`)
 
 ```html
-<input type="text" ng-model="card.number" cc-number />
+<input type="text" ng-model="card.number" cc-number cc-type="cardType" />
 ```
 
 * Strips all punctuation and spaces
 * Validates the card against the [Luhn algorithm](http://en.wikipedia.org/wiki/Luhn_algorithm)
+* Checks whether the card is the type specified in scope property in `cc-type` (optional)
 * Exposes the [card type](https://github.com/bendrucker/creditcards/blob/master/README.md#cardtypenumber---string) as `$type` on the model controller
+
+The `cc-type` property is optional. If its value is defined on the scope, the card number will be checked against that type in addition to the Luhh algorithm. A special validity key—`ccNumberType`—indicates whether the card matched the specified type. If no type is provided, `ccNumberType` will always be valid for any card that passes Luhn. `$type` will mirror `ccType` for convenience. 
 
 ```html
 <form name="paymentForm">
   <input type="text" ng-model="card.number" name="cardNumber" cc-number />
 </form>
 Paying with {{cardNumber.$type}}
+```
+
+```html
+<form name="paymentForm">
+  <select ng-model="cardType" ng-options="type in ['Visa', 'American Express', 'MasterCard']"></select>
+  <input type="text" ng-model="card.number" name="cardNumber" cc-number cc-type="cardType" />
+  <p ng-show="paymentForm.cardNumber.$error.ccNumberType">That's not a valid {{cardType}}</p>
+</form>
 ```
 
 ### CVC (`cc-cvc`)
