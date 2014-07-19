@@ -5,7 +5,7 @@ var angular    = require('angular');
 
 module.exports = function () {
   return {
-    restrict: 'AEC',
+    restrict: 'AE',
     require: ['?^form'],
     controller: ['$element', function (element) {
       var nullFormCtrl = {
@@ -60,7 +60,7 @@ module.exports.month = function () {
 
 module.exports.year = function () {
   return {
-    restrict: 'AC',
+    restrict: 'A',
     require: ['ngModel', '^?ccExp'],
     compile: function (element, attributes) {
       attributes.$set('maxlength', 2);
