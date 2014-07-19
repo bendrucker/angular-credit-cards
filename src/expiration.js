@@ -2,28 +2,6 @@
 
 var expiration = require('creditcards').expiration;
 var angular    = require('angular');
-var internals  = {};
-
-internals.Date = function (month, year) {
-  this.month = new internals.Month(month);
-  this.year = new internals.Year(year);
-};
-
-internals.Date.today = function () {
-  var today = new Date();
-  return {
-    month: today.getMonth() + 1,
-    year: today.getFullYear()
-  };
-};
-
-internals.Date.prototype.isCurrent = function () {
-  return this.year.isCurrent() && this.month.month === internals.Date.today().month;
-};
-
-internals.Date.prototype.isFuture = function () {
-  return this.year.isValid() && this.month.isValid() && this.month.month > internals.Date.today().month;
-};
 
 module.exports = function () {
   return {
@@ -34,46 +12,26 @@ module.exports = function () {
         $setValidity: angular.noop
       };
       var parentForm = element.inheritedData('$formController') || nullFormCtrl;
-      var expiration = new internals.Date();
 
-      this.set = function (key, object) {
-        if (object && object.hasOwnProperty(key)) {
-          expiration[key] = value;
-        } else {
-          expiration[key].set(object);
-        }
-        this.setValidity(expiration.isCurrent() || expiration.isFuture());
+      var exp = {};
+      this.set = function (key, value) {
+        exp[key] = value;
+        this.$setValidity(
+          typeof exp.month !== 'undefined' &&
+          exp.year &&
+          expiration.isFuture(exp.month, exp.year)
+        );
       };
 
-      this.setValidity = function (valid) {
+      this.$setValidity = function (valid) {
         parentForm.$setValidity('ccExp', valid, element);
       };
     }]
   };
 };
 
-internals.nullCcExpCtrl = {
+var nullCcExpCtrl = {
   set: angular.noop
-};
-
-internals.Month = function (value) {
-  this.set(value);
-};
-
-internals.Month.prototype.set = function (value) {
-  this.value = value;
-  this.month = parseInt(value);
-};
-
-internals.Month.prototype.isValid = function () {
-  return !isNaN(this.month) && this.month >= 1 && this.month <= 12;
-};
-
-internals.Month.prototype.format = function (pad) {
-  if (!this.isValid()) return;
-  var month = this.month.toString();
-  if (!pad) return month;
-  return month.length === 2 ? month : '0' + month;
 };
 
 module.exports.month = function () {
@@ -86,7 +44,7 @@ module.exports.month = function () {
 
       return function (scope, element, attributes, controllers) {
         var ngModelCtrl = controllers[0];
-        var ccExpCtrl = controllers[1] || internals.nullCcExpCtrl;
+        var ccExpCtrl = controllers[1] || nullCcExpCtrl;
         ngModelCtrl.$parsers.unshift(function (month) {
           month = expiration.month.parse(month);
           var valid = expiration.month.isValid(month);
@@ -100,32 +58,6 @@ module.exports.month = function () {
   };
 };
 
-internals.Year = function (value) {
-  this.set(value);
-};
-
-internals.Year.prototype.set = function (value) {
-  this.value = value;
-  this.year = parseInt('20' + value);
-};
-
-internals.Year.prototype.isValid = function () {
-  return this.year && !isNaN(this.year) && this.year >= internals.Date.today().year;
-};
-
-internals.Year.prototype.isCurrent = function () {
-  return this.year === internals.Date.today().year;
-};
-
-internals.Year.prototype.format = function (length) {
-  if (!this.isValid()) return;
-  var year = this.year.toString();
-  switch (length) {
-    case 4: return year;
-    default: return year.substring(2, 4);
-  }
-};
-
 module.exports.year = function () {
   return {
     restrict: 'AC',
@@ -136,7 +68,7 @@ module.exports.year = function () {
 
       return function (scope, element, attributes, controllers) {
         var ngModelCtrl = controllers[0];
-        var ccExpCtrl = controllers[1] || internals.nullCcExpCtrl;
+        var ccExpCtrl = controllers[1] || nullCcExpCtrl;
         ngModelCtrl.$parsers.unshift(function (year) {
           year = expiration.year.parse(year, true);
           var valid = expiration.year.isValid(year) && expiration.year.isFuture(year);
