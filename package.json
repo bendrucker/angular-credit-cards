@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "creditcard": "^0.1.1",
-    "creditcards": "~0.1.0"
+    "creditcards": "~0.2.0"
   },
   "browserify": {
     "transform": [
