@@ -2,7 +2,7 @@
 
 require('angular')
   .module('credit-cards', [])
-  .value('creditCards', require('creditcards'))
+  .value('creditcards', require('creditcards'))
   .directive('ccNumber', require('./number'))
   .directive('ccExp', require('./expiration'))
   .directive('ccExpMonth', require('./expiration').month)
