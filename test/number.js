@@ -16,6 +16,10 @@ describe('cc-number', function () {
     controller   = element.controller('ngModel');
   }));
 
+  it('adds a numeric pattern', function () {
+    expect(element.attr('pattern')).to.equal('[0-9]*');
+  });
+
   it('accepts a valid card', function () {
     controller.$setViewValue('4242 4242 4242 4242');
     expect(controller.$valid).to.be.true;

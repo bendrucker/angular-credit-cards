@@ -11,7 +11,9 @@ module.exports = function () {
         this.$type = type;
       };
     },
-    compile: function () {
+    compile: function (element, attributes) {
+      attributes.$set('pattern', '[0-9]*');
+
       return function (scope, element, attributes, controllers) {
         var ngModelController = controllers[0];
         var ccNumberController = controllers[1];
