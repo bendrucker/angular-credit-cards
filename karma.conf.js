@@ -35,14 +35,20 @@ module.exports = function(config) {
 
     browserify: {
       debug: true,
-      transform: ['browserify-shim']
+      transform: ['browserify-istanbul', 'browserify-shim']
     },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
+
+    coverageReporter: {
+      type: 'lcovonly',
+      dir: 'coverage',
+      subdir: '.'
+    },
 
 
     // web server port
