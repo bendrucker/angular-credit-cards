@@ -32,6 +32,7 @@ All directives apply a [numeric input pattern](http://bradfrostweb.com/blog/mobi
 * Strips all punctuation and spaces
 * Validates the card against the [Luhn algorithm](http://en.wikipedia.org/wiki/Luhn_algorithm)
 * Checks whether the card is the type specified in scope property in `cc-type` (optional)
+* Otherwise, checks whether the card matches any valid card type
 * Exposes the [card type](https://github.com/bendrucker/creditcards/blob/master/README.md#cardtypenumber---string) as `$type` on the model controller
 
 The `cc-type` property is optional. If its value is defined on the scope, the card number will be checked against that type in addition to the Luhh algorithm. A special validity key—`ccNumberType`—indicates whether the card matched the specified type. If no type is provided, `ccNumberType` will always be valid for any card that passes Luhn. `$type` will mirror `ccType` for convenience. 
