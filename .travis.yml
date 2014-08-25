@@ -4,6 +4,9 @@ node_js:
 before_script:
 - npm install -g bower
 - bower install
+after_script:
+- npm install -g codeclimate-test-reporter
+- codeclimate < ./coverage/lcov.info
 deploy:
   provider: npm
   email: bvdrucker@gmail.com
