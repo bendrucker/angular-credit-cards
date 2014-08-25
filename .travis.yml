@@ -16,3 +16,6 @@ deploy:
     all_branches: true
     tags: true
     repo: bendrucker/angular-credit-cards
+env:
+  global:
+    secure: VprXxdbEaxQv6evyuTkb7z+uCjdyZR2lxk1Roo8W08ba0uirpegpCw9jYN4ptv6gNwE8n3koiHsvczDat9KWZoqQ4nnUgEDwI67i2FSHrvQqsVgrzqJpSoIcGe96OTZJCe/dEh1Xh4IELHEt20piR8GChoE8mxLBi26ITyz03fk=
