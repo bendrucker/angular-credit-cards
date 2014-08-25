@@ -33,6 +33,18 @@ describe('cc-number', function () {
     expect(controller.$error.ccNumberType).to.be.false;
   });
 
+  it('rejects a luhn-invalid card', function () {
+    controller.$setViewValue('4242424242424241');
+    expect(controller.$valid).to.be.false;
+    expect(scope.card.number).to.be.undefined;
+  });
+
+  it('rejects a luhn-valid card with no matching type', function () {
+    controller.$setViewValue('42');
+    expect(controller.$valid).to.be.false;
+    expect(scope.card.number).to.be.undefined;
+  });
+
   it('rejects an invalid card', function () {
     controller.$setViewValue('4242424242424241');
     expect(controller.$valid).to.be.false;
