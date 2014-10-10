@@ -41,7 +41,7 @@
     "sinon-chai": "2"
   },
   "dependencies": {
-    "creditcards": "0.4"
+    "creditcards": "1"
   },
   "browserify": {
     "transform": [
