@@ -1,4 +1,5 @@
 test/
+release/
 bower.json
 karma.conf.js
 **/.*

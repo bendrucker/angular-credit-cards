@@ -5,11 +5,24 @@ angular-credit-cards
 
 A set of Angular directives for constructing credit card payment forms. Uses [creditcards](https://www.npmjs.org/package/creditcards) to parse and validate inputs. Pairs well with [angular-stripe](https://www.npmjs.org/package/angular-stripe) or any other payments backend.
 
+## Installation
+```bash
+# use npm
+$ npm install angular-credit-cards
+# or bower
+$ bower install angular-credit-cards
+```
+
 ## Getting Started
 
 Include `'angular-credit-cards'` in your module's dependencies:
 
 ```js
+// node module exports the string 'angular-credit-cards' for convenience
+angular.module('myApp', [
+  require('angular-credit-cards')
+]);
+// otherwise, include the code first then the module name
 angular.module('myApp', [
   'angular-credit-cards'
 ]);
