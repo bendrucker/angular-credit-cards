@@ -32,7 +32,7 @@
     "browserify-shim": "3",
     "chai": "1",
     "karma": "0.12",
-    "karma-bro": "0.8",
+    "karma-browserify": "^1.0.0",
     "karma-chai-sinon": "0",
     "karma-cli": "0",
     "karma-coverage": "0",
