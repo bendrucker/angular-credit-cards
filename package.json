@@ -27,9 +27,9 @@
   },
   "homepage": "https://github.com/bendrucker/angular-credit-cards",
   "devDependencies": {
+    "browserify": "~6.3.3",
     "browserify-bower-release": "^2.0.0",
     "browserify-istanbul": "0",
-    "browserify-shim": "3",
     "chai": "1",
     "karma": "0.12",
     "karma-browserify": "^1.0.0",
@@ -43,6 +43,7 @@
     "sinon-chai": "2"
   },
   "dependencies": {
+    "browserify-shim": "~3.8.0",
     "creditcards": "1"
   },
   "browserify": {
