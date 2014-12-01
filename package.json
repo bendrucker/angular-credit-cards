@@ -2,7 +2,7 @@
   "name": "angular-credit-cards",
   "version": "1.0.2",
   "description": "Angular directives for formatting and validating credit card inputs",
-  "main": "src/module.js",
+  "main": "./src",
   "scripts": {
     "test": "karma start --single-run",
     "release": "release release"
