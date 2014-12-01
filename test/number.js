@@ -78,6 +78,14 @@ describe('cc-number', function () {
       expect(ccNumberController.$type).to.equal('Visa');
     });
 
+    it('will not overwrite a defined type', function () {
+      scope.cardType = 'Visa';
+      scope.$digest();
+      controller.$setViewValue('4242424242424242');
+      scope.$digest();
+      expect(ccNumberController.$type).to.equal('Visa');
+    });
+
     it('can handle an undefined type', function () {
       ccNumberController.setType();
       expect(ccNumberController.$type).to.be.undefined;
