@@ -17,8 +17,8 @@ module.exports = function () {
       this.set = function (key, value) {
         exp[key] = value;
         this.$setValidity(
-          exp.month &&
-          exp.year &&
+          !!exp.month &&
+          !!exp.year &&
           !expiration.isPast(exp.month, exp.year)
         );
       };
@@ -47,11 +47,10 @@ module.exports.month = function () {
         var ccExpCtrl = controllers[1] || nullCcExpCtrl;
         ngModelCtrl.$parsers.unshift(function (month) {
           month = expiration.month.parse(month);
-          var valid = expiration.month.isValid(month);
-          ngModelCtrl.$setValidity('ccExpMonth', valid);
           ccExpCtrl.set('month', month);
           return month;
         });
+        ngModelCtrl.$validators.ccExpMonth = expiration.month.isValid;
       };
     }
   };
@@ -70,11 +69,12 @@ module.exports.year = function () {
         var ccExpCtrl = controllers[1] || nullCcExpCtrl;
         ngModelCtrl.$parsers.unshift(function (year) {
           year = expiration.year.parse(year, true);
-          var valid = expiration.year.isValid(year) && !expiration.year.isPast(year);
-          ngModelCtrl.$setValidity('ccExpYear', valid);
           ccExpCtrl.set('year', year);
           return year;
         });
+        ngModelCtrl.$validators.ccExpYear = function (year) {
+          return expiration.year.isValid(year) && !expiration.year.isPast(year);
+        };
       };
     }
   };

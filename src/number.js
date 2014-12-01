@@ -28,18 +28,18 @@ module.exports = function () {
         });
 
         scope.$watch('ccType', function (type) {
-          ngModelController.$setViewValue(ngModelController.$viewValue);
+          ngModelController.$validate();
           ccNumberController.setType(type);
         });
 
         ngModelController.$parsers.unshift(function (number) {
-          number = card.parse(number);
-          var valid = card.isValid(number, scope.ccType);
-          ngModelController.$setValidity('ccNumber', card.luhn(number));
-          ngModelController.$setValidity('ccNumberType', valid);
           if (!scope.ccType) ccNumberController.setType(card.type(number));
-          if (valid) return number;
+          return card.parse(number);
         });
+        ngModelController.$validators.ccNumber = card.luhn;
+        ngModelController.$validators.ccNumberType = function (number) {
+          return card.isValid(number, scope.ccType);
+        };
       };
     }
   };

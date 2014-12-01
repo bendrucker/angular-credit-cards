@@ -30,7 +30,7 @@ describe('cc-number', function () {
     scope.cardType = 'Visa';
     controller.$setViewValue('4242 4242 4242 4242');
     scope.$digest();
-    expect(controller.$error.ccNumberType).to.be.false;
+    expect(controller.$error.ccNumberType).to.not.be.ok;
   });
 
   it('rejects a luhn-invalid card', function () {

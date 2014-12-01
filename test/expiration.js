@@ -32,18 +32,18 @@ describe('Expiration', function () {
     it('is valid for a valid future month/year', function () {
       controller.set('month', 12);
       controller.set('year', 2099);
-      expect(formController.$error.ccExp).to.be.false;
+      expect(formController.$error.ccExp).to.not.be.ok;
     });
 
     it('is valid for the current month', function () {
       controller.set('month', (today.getMonth() + 1));
       controller.set('year', today.getFullYear());
-      expect(formController.$error.ccExp).to.be.false;
+      expect(formController.$error.ccExp).to.not.be.ok;
     });
 
     it('is invalid when either the month or year are invalid', function () {
       controller.set('month');
-      controller.set('year', 2999)
+      controller.set('year', 2999);
       expect(formController.$error.ccExp).to.contain(element);
     });
 
@@ -104,9 +104,9 @@ describe('Expiration', function () {
     });
 
     it('is invalid when falsy', function () {
-      controller.$setViewValue();
+      controller.$setViewValue('');
       scope.$digest();
-      expect(controller.$error.ccExpMonth).to.be.true;
+      expect(controller.$valid).to.be.false;
     });
 
     it('unsets the model value when $invalid', function () {

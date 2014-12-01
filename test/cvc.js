@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 describe('cc-cvc', function () {
 
   beforeEach(angular.mock.module(require('../')));
@@ -37,12 +39,11 @@ describe('cc-cvc', function () {
 
   it('can validate against the card type', function () {
     scope.cardType = 'visa';
-    controller.$setViewValue('1234');
+    scope.card.cvc = '1234';
     scope.$digest();
     expect(controller.$valid).to.be.false;
     scope.cardType = 'americanExpress';
     scope.$digest();
-
     expect(controller.$valid).to.be.true;
   });
 
