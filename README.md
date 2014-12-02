@@ -98,7 +98,7 @@ You can optionally specify a scope property that stores the card type as `cc-typ
 * `cc-exp`
   * Validates that the month/year pair has not passed
 
-`cc-exp` must be placed on a parent element of `cc-exp-month` and `cc-exp-year`.
+`cc-exp` must be placed on a parent element of `cc-exp-month` and `cc-exp-year`. Using the [full 4 digit year](https://github.com/bendrucker/angular-credit-cards/issues/9) is not supported.
 
 ## Form Validation
 
