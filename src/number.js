@@ -36,7 +36,9 @@ module.exports = function () {
           if (!scope.ccType) ccNumberController.setType(card.type(number));
           return card.parse(number);
         });
-        ngModelController.$validators.ccNumber = card.luhn;
+        ngModelController.$validators.ccNumber = function (number) {
+          return card.isValid(number);
+        };
         ngModelController.$validators.ccNumberType = function (number) {
           return card.isValid(number, scope.ccType);
         };
