@@ -83,6 +83,9 @@ module.exports.year = function () {
         ngModelCtrl.$parsers.unshift(function (year) {
           return expiration.year.parse(year, true);
         });
+        ngModelCtrl.$formatters.unshift(function (year) {
+          return year ? expiration.year.format(year, true) : '';
+        });
         ngModelCtrl.$validators.ccExpYear = function (year) {
           return expiration.year.isValid(year) && !expiration.year.isPast(year);
         };

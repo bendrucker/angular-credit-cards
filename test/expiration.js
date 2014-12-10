@@ -144,6 +144,12 @@ describe('Expiration', function () {
       expect(controller.$valid).to.be.false;
     });
 
+    it('formats the year from the model value', function () {
+      expiration.year = 2014;
+      $scope.$digest();
+      expect(controller.$viewValue).to.equal('14');
+    });
+
   });
 
 });
