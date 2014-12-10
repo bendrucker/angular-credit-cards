@@ -12,6 +12,7 @@ describe('Expiration', function () {
     scope            = $injector.get('$rootScope').$new();
     scope.expiration = {};
     sandbox          = sinon.sandbox.create();
+    sandbox.useFakeTimers(1417410000000);
   }));
 
   afterEach(function () {
@@ -22,7 +23,7 @@ describe('Expiration', function () {
 
     var form, formController, element, controller, today;
     beforeEach(function () {
-      form           = angular.element('<form><div cc-exp><input ng-model="expiration.month" cc-exp-month /><input ng-model="expiration.month" cc-exp-month /></div></form>');
+      form           = angular.element('<form><div cc-exp><input ng-model="expiration.month" cc-exp-month /><input ng-model="expiration.year" cc-exp-year /></div></form>');
       formController = $compile(form)(scope).controller('form');
       element        = form.children();
       controller     = element.controller('ccExp');
@@ -30,34 +31,34 @@ describe('Expiration', function () {
     });
 
     it('is valid for a valid future month/year', function () {
-      controller.set('month', 12);
-      controller.set('year', 2099);
+      scope.expiration.month = 1;
+      scope.expiration.year = 2015;
+      scope.$digest();
       expect(formController.$error.ccExp).to.not.be.ok;
     });
 
     it('is valid for the current month', function () {
-      controller.set('month', (today.getMonth() + 1));
-      controller.set('year', today.getFullYear());
+      scope.expiration.month = 12;
+      scope.expiration.year = 2014;
+      scope.$digest();
       expect(formController.$error.ccExp).to.not.be.ok;
     });
 
     it('is invalid when either the month or year are invalid', function () {
-      controller.set('month');
-      controller.set('year', 2999);
+      scope.$digest();
       expect(formController.$error.ccExp).to.contain(element);
     });
 
     it('is invalid for a past month this year', function () {
-      // 0 would never make it to month, but it's easier to test
-      controller.set('month', 0);
-      controller.set('year', today.getFullYear());
+      scope.expiration.month = 10;
+      scope.expiration.year = 2014;
+      scope.$digest();
       expect(formController.$error.ccExp).to.contain(element);
     });
 
     it('is a noop with no form', function () {
       element = angular.element('<div cc-exp><input ng-model="expiration.month" cc-exp-month /><input ng-model="expiration.month" cc-exp-month /></div>');
       var controller = $compile(element)(scope).controller('ccExp');
-      controller.set('month', 12);
     });
 
   });
@@ -76,17 +77,6 @@ describe('Expiration', function () {
 
     it('adds a numeric pattern', function () {
       expect(element.attr('pattern')).to.equal('[0-9]*');
-    });
-
-    it('passes changes to cc-exp', function () {
-      element    = angular.element('<div cc-exp><input ng-model="expiration.month" cc-exp-month /></div>');
-      controller = $compile(element)(scope).children().controller('ngModel');
-
-      var ccExpController = element.controller('ccExp');
-
-      sinon.stub(ccExpController, 'set');
-      controller.$setViewValue('12');
-      expect(ccExpController.set).to.have.been.calledWith('month', 12);
     });
 
     it('is accepts a valid month string', function () {
@@ -131,17 +121,6 @@ describe('Expiration', function () {
 
     it('adds a numeric pattern', function () {
       expect(element.attr('pattern')).to.equal('[0-9]*');
-    });
-
-    it('passes the value to cc-exp', function () {
-      element    = angular.element('<div cc-exp><input ng-model="expiration.year" cc-exp-year /></div>');
-      controller = $compile(element)(scope).children().controller('ngModel');
-
-      var ccExpController = element.controller('ccExp');
-
-      sinon.stub(ccExpController, 'set');
-      controller.$setViewValue('99');
-      expect(ccExpController.set).to.have.been.calledWith('year', 2099);
     });
 
     it('is invalid when in the past', function () {
