@@ -7,14 +7,14 @@ module.exports = function () {
   return {
     restrict: 'AE',
     require: 'ccExp',
-    controller: ExpController,
+    controller: CcExpController,
     link: function (scope, element, attributes, controller) {
       controller.$watch();
     }
   };
 };
 
-function ExpController ($scope, $element) {
+function CcExpController ($scope, $element) {
   var nullFormCtrl = {
     $setValidity: angular.noop
   };
@@ -27,7 +27,7 @@ function ExpController ($scope, $element) {
   this.setYear = function (yearCtrl) {
     year = yearCtrl;
   };
-  function validate (exp) {
+  function setValidity (exp) {
     var valid = !!exp.month && !!exp.year && !expiration.isPast(exp.month, exp.year);
     parentForm.$setValidity('ccExp', valid, $element);
   }
@@ -37,10 +37,10 @@ function ExpController ($scope, $element) {
         month: month.$modelValue,
         year: year.$modelValue
       };
-    }, validate, true);
+    }, setValidity, true);
   };
 }
-ExpController.$inject = ['$scope', '$element'];
+CcExpController.$inject = ['$scope', '$element'];
 
 var nullCcExpCtrl = {
   setMonth: angular.noop,
@@ -60,8 +60,7 @@ module.exports.month = function () {
         var ccExpCtrl = controllers[1] || nullCcExpCtrl;
         ccExpCtrl.setMonth(ngModelCtrl);
         ngModelCtrl.$parsers.unshift(function (month) {
-          month = expiration.month.parse(month);
-          return month;
+          return expiration.month.parse(month);
         });
         ngModelCtrl.$validators.ccExpMonth = expiration.month.isValid;
       };
@@ -82,8 +81,7 @@ module.exports.year = function () {
         var ccExpCtrl = controllers[1] || nullCcExpCtrl;
         ccExpCtrl.setYear(ngModelCtrl);
         ngModelCtrl.$parsers.unshift(function (year) {
-          year = expiration.year.parse(year, true);
-          return year;
+          return expiration.year.parse(year, true);
         });
         ngModelCtrl.$validators.ccExpYear = function (year) {
           return expiration.year.isValid(year) && !expiration.year.isPast(year);
