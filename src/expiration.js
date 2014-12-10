@@ -6,32 +6,45 @@ var angular    = require('angular');
 module.exports = function () {
   return {
     restrict: 'AE',
-    require: ['?^form'],
-    controller: ['$element', function (element) {
-      var nullFormCtrl = {
-        $setValidity: angular.noop
-      };
-      var parentForm = element.inheritedData('$formController') || nullFormCtrl;
-
-      var exp = {};
-      this.set = function (key, value) {
-        exp[key] = value;
-        this.$setValidity(
-          !!exp.month &&
-          !!exp.year &&
-          !expiration.isPast(exp.month, exp.year)
-        );
-      };
-
-      this.$setValidity = function (valid) {
-        parentForm.$setValidity('ccExp', valid, element);
-      };
-    }]
+    require: 'ccExp',
+    controller: CcExpController,
+    link: function (scope, element, attributes, controller) {
+      controller.$watch();
+    }
   };
 };
 
+function CcExpController ($scope, $element) {
+  var nullFormCtrl = {
+    $setValidity: angular.noop
+  };
+  var parentForm = $element.inheritedData('$formController') || nullFormCtrl;
+  var month = {};
+  var year = {};
+  this.setMonth = function (monthCtrl) {
+    month = monthCtrl;
+  };
+  this.setYear = function (yearCtrl) {
+    year = yearCtrl;
+  };
+  function setValidity (exp) {
+    var valid = !!exp.month && !!exp.year && !expiration.isPast(exp.month, exp.year);
+    parentForm.$setValidity('ccExp', valid, $element);
+  }
+  this.$watch = function $watch () {
+    $scope.$watch(function () {
+      return {
+        month: month.$modelValue,
+        year: year.$modelValue
+      };
+    }, setValidity, true);
+  };
+}
+CcExpController.$inject = ['$scope', '$element'];
+
 var nullCcExpCtrl = {
-  set: angular.noop
+  setMonth: angular.noop,
+  setYear: angular.noop
 };
 
 module.exports.month = function () {
@@ -45,10 +58,9 @@ module.exports.month = function () {
       return function (scope, element, attributes, controllers) {
         var ngModelCtrl = controllers[0];
         var ccExpCtrl = controllers[1] || nullCcExpCtrl;
+        ccExpCtrl.setMonth(ngModelCtrl);
         ngModelCtrl.$parsers.unshift(function (month) {
-          month = expiration.month.parse(month);
-          ccExpCtrl.set('month', month);
-          return month;
+          return expiration.month.parse(month);
         });
         ngModelCtrl.$validators.ccExpMonth = expiration.month.isValid;
       };
@@ -67,10 +79,9 @@ module.exports.year = function () {
       return function (scope, element, attributes, controllers) {
         var ngModelCtrl = controllers[0];
         var ccExpCtrl = controllers[1] || nullCcExpCtrl;
+        ccExpCtrl.setYear(ngModelCtrl);
         ngModelCtrl.$parsers.unshift(function (year) {
-          year = expiration.year.parse(year, true);
-          ccExpCtrl.set('year', year);
-          return year;
+          return expiration.year.parse(year, true);
         });
         ngModelCtrl.$validators.ccExpYear = function (year) {
           return expiration.year.isValid(year) && !expiration.year.isPast(year);
