@@ -41,6 +41,7 @@
     "karma-mocha": "0",
     "karma-phantomjs-launcher": "0",
     "mocha": "1",
+    "partialify": "~3.1.1",
     "sinon": "1",
     "sinon-chai": "2"
   },

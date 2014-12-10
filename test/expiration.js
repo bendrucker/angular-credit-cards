@@ -6,12 +6,15 @@ describe('Expiration', function () {
 
   beforeEach(angular.mock.module(require('../')));
 
-  var $compile, scope, sandbox;
+  var $compile, element, $scope, expiration, sandbox;
   beforeEach(angular.mock.inject(function ($injector) {
-    $compile         = $injector.get('$compile');
-    scope            = $injector.get('$rootScope').$new();
-    scope.expiration = {};
-    sandbox          = sinon.sandbox.create();
+    $compile          = $injector.get('$compile');
+    element           = angular.element(require('./fixtures/cc-exp.html'));
+    $scope            = $injector.get('$rootScope').$new();
+    $scope.expiration = (expiration = {});
+    sandbox           = sinon.sandbox.create();
+
+    // Set current date to 12/1/2014 00:00 UTC -5
     sandbox.useFakeTimers(1417410000000);
   }));
 
@@ -21,54 +24,52 @@ describe('Expiration', function () {
 
   describe('cc-exp', function () {
 
-    var form, formController, element, controller, today;
+    var form, formController, controller;
     beforeEach(function () {
-      form           = angular.element('<form><div cc-exp><input ng-model="expiration.month" cc-exp-month /><input ng-model="expiration.year" cc-exp-year /></div></form>');
-      formController = $compile(form)(scope).controller('form');
+      form           = element;
+      formController = $compile(form)($scope).controller('form');
       element        = form.children();
       controller     = element.controller('ccExp');
-      today          = new Date();
     });
 
-    it('is valid for a valid future month/year', function () {
-      scope.expiration.month = 1;
-      scope.expiration.year = 2015;
-      scope.$digest();
+    it('is valid for a valid future month', function () {
+      expiration.month = 1;
+      expiration.year = 2015;
+      $scope.$digest();
       expect(formController.$error.ccExp).to.not.be.ok;
     });
 
     it('is valid for the current month', function () {
-      scope.expiration.month = 12;
-      scope.expiration.year = 2014;
-      scope.$digest();
+      expiration.month = 12;
+      expiration.year = 2014;
+      $scope.$digest();
       expect(formController.$error.ccExp).to.not.be.ok;
     });
 
     it('is invalid when either the month or year are invalid', function () {
-      scope.$digest();
+      $scope.$digest();
       expect(formController.$error.ccExp).to.contain(element);
     });
 
     it('is invalid for a past month this year', function () {
-      scope.expiration.month = 10;
-      scope.expiration.year = 2014;
-      scope.$digest();
+      expiration.month = 10;
+      expiration.year = 2014;
+      $scope.$digest();
       expect(formController.$error.ccExp).to.contain(element);
     });
 
     it('is a noop with no form', function () {
-      element = angular.element('<div cc-exp><input ng-model="expiration.month" cc-exp-month /><input ng-model="expiration.month" cc-exp-month /></div>');
-      var controller = $compile(element)(scope).controller('ccExp');
+      $compile(element)($scope).controller('ccExp');
     });
 
   });
 
   describe('cc-exp-month', function () {
 
-    var controller, element;
+    var controller;
     beforeEach(function () {
-      element    = angular.element('<input ng-model="expiration.month" cc-exp-month />');
-      controller = $compile(element)(scope).controller('ngModel');
+      element    = element.find('input').eq(0);
+      controller = $compile(element)($scope).controller('ngModel');
     });
 
     it('sets maxlength to 2', function () {
@@ -81,38 +82,32 @@ describe('Expiration', function () {
 
     it('is accepts a valid month string', function () {
       controller.$setViewValue('05');
-      scope.$digest();
+      $scope.$digest();
       expect(controller.$valid).to.be.true;
-      expect(scope.expiration.month).to.equal(5);
+      expect(expiration.month).to.equal(5);
     });
 
     it('is accepts a valid month number', function () {
       controller.$setViewValue(5);
-      scope.$digest();
+      $scope.$digest();
       expect(controller.$valid).to.be.true;
-      expect(scope.expiration.month).to.equal(5);
+      expect(expiration.month).to.equal(5);
     });
 
     it('is invalid when falsy', function () {
       controller.$setViewValue('');
-      scope.$digest();
+      $scope.$digest();
       expect(controller.$valid).to.be.false;
-    });
-
-    it('unsets the model value when $invalid', function () {
-      controller.$setViewValue('ab');
-      scope.$digest();
-      expect(scope.expiration.ccExpMonth).to.be.undefined;
     });
 
   });
 
   describe('cc-exp-year', function () {
 
-    var controller, element;
+    var controller;
     beforeEach(function () {
-      element    = angular.element('<input ng-model="expiration.year" cc-exp-year />');
-      controller = $compile(element)(scope).controller('ngModel');
+      element    = element.find('input').eq(1);
+      controller = $compile(element)($scope).controller('ngModel');
     });
 
     it('sets maxlength to 2', function () {
@@ -125,37 +120,26 @@ describe('Expiration', function () {
 
     it('is invalid when in the past', function () {
       controller.$setViewValue(13);
-      scope.$digest();
+      $scope.$digest();
       expect(controller.$error.ccExpYear).to.be.true;
     });
 
-    it('unsets the model value when $invalid', function () {
-      controller.$setViewValue('ab');
-      scope.$digest();
-      expect(scope.expiration.ccExpYear).to.be.undefined;
-    });
-
-    var currentYear = new Date()
-      .getFullYear()
-      .toString()
-      .substring(2, 4);
-
     it('is valid for this year', function () {
-      controller.$setViewValue(currentYear);
-      scope.$digest();
+      controller.$setViewValue('14');
+      $scope.$digest();
       expect(controller.$valid).to.be.true;
-      expect(scope.expiration.year).to.equal(new Date().getFullYear());
+      expect(expiration.year).to.equal(2014);
     });
 
     it('is valid for a far-future year', function () {
       controller.$setViewValue('99');
-      scope.$digest();
+      $scope.$digest();
       expect(controller.$valid).to.be.true;
     });
 
     it('is not valid for a past year', function () {
       controller.$setViewValue('13');
-      scope.$digest();
+      $scope.$digest();
       expect(controller.$valid).to.be.false;
     });
 
