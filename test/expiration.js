@@ -59,7 +59,8 @@ describe('Expiration', function () {
     });
 
     it('is a noop with no form', function () {
-      $compile(element)($scope).controller('ccExp');
+      $compile(element.clone())($scope).controller('ccExp');
+      $scope.$digest();
     });
 
   });
