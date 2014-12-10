@@ -150,6 +150,32 @@ describe('Expiration', function () {
       expect(controller.$viewValue).to.equal('14');
     });
 
+    describe('full-year', function () {
+      
+      beforeEach(function () {
+        element    = element.clone().attr('full-year', '');
+        controller = $compile(element)($scope).controller('ngModel');
+      });
+
+      it('sets maxlength to 4', function () {
+        expect(element.attr('maxlength')).to.equal('4');
+      });
+
+      it('does not pad the date when parsing', function () {
+        controller.$setViewValue('2014');
+        $scope.$digest();
+        expect(controller.$valid).to.be.true;
+        expect(expiration.year).to.equal(2014);
+      });
+
+      it('does not strip the date when formatting', function () {
+        expiration.year = 2014;
+        $scope.$digest();
+        expect(controller.$viewValue).to.equal('2014');
+      });
+
+    });
+
   });
 
 });

@@ -73,7 +73,8 @@ module.exports.year = function () {
     restrict: 'A',
     require: ['ngModel', '^?ccExp'],
     compile: function (element, attributes) {
-      attributes.$set('maxlength', 2);
+      var fullYear = attributes.fullYear !== void 0;
+      attributes.$set('maxlength', fullYear ? 4 : 2);
       attributes.$set('pattern', '[0-9]*');
 
       return function (scope, element, attributes, controllers) {
@@ -81,10 +82,10 @@ module.exports.year = function () {
         var ccExpCtrl = controllers[1] || nullCcExpCtrl;
         ccExpCtrl.setYear(ngModelCtrl);
         ngModelCtrl.$parsers.unshift(function (year) {
-          return expiration.year.parse(year, true);
+          return expiration.year.parse(year, !fullYear);
         });
         ngModelCtrl.$formatters.unshift(function (year) {
-          return year ? expiration.year.format(year, true) : '';
+          return year ? expiration.year.format(year, !fullYear) : '';
         });
         ngModelCtrl.$validators.ccExpYear = function (year) {
           return expiration.year.isValid(year) && !expiration.year.isPast(year);

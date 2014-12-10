@@ -91,14 +91,14 @@ You can optionally specify a scope property that stores the card type as `cc-typ
   * Validates the month
   * Converts it to a number
 * `cc-exp-year`
-  * Sets `maxlength="2"`
-  * Converts the year to a 4 digit number (`'14'` -> `2014`)
+  * Sets `maxlength="2"` (or `4` with the `full-year` attribute)
+  * Converts the year to a 4 digit number (`'14'` -> `2014`), unless `full-year` is added
   * Validates the year
   * Validates that the expiration year has not passed
 * `cc-exp`
   * Validates that the month/year pair has not passed
 
-`cc-exp` must be placed on a parent element of `cc-exp-month` and `cc-exp-year`. Using the [full 4 digit year](https://github.com/bendrucker/angular-credit-cards/issues/9) is not supported.
+`cc-exp` must be placed on a parent element of `cc-exp-month` and `cc-exp-year`. If you
 
 ## Form Validation
 
