@@ -81,8 +81,8 @@ You can optionally specify a scope property that stores the card type as `cc-typ
 
 ```html
 <div cc-exp>
-  <input type="number" ng-model="card.exp_month" cc-exp-month />
-  <input type="number" ng-model="card.exp_year" cc-exp-year />
+  <input ng-model="card.exp_month" cc-exp-month />
+  <input ng-model="card.exp_year" cc-exp-year />
 </div>
 ```
 
@@ -98,7 +98,9 @@ You can optionally specify a scope property that stores the card type as `cc-typ
 * `cc-exp`
   * Validates that the month/year pair has not passed
 
-`cc-exp` must be placed on a parent element of `cc-exp-month` and `cc-exp-year`. If you
+`cc-exp-month` and `cc-exp-year` should both be placed on `input` elements with `type="text"` or no `type` attribute. The browser's normal maxlength behavior (preventing input after the specified number of characters and truncating pasted text to that length) does not work with `type="number"`. Both directives will handle parsing the date components into numbers internally. 
+
+`cc-exp` must be placed on a parent element of `cc-exp-month` and `cc-exp-year`.
 
 ## Form Validation
 

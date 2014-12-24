@@ -77,6 +77,15 @@ describe('Expiration', function () {
       expect(element.attr('maxlength')).to.equal('2');
     });
 
+    it('validates maxlength with type="number" (#13)', function () {
+      element = element.clone().attr('type', 'number');
+      controller = $compile(element)($scope).controller('ngModel');
+      controller.$setViewValue('100');
+      $scope.$digest();
+      expect(controller.$valid).to.be.false;
+      expect(controller.$error.maxlength).to.be.true;
+    });
+
     it('adds a numeric pattern', function () {
       expect(element.attr('pattern')).to.equal('[0-9]*');
     });
