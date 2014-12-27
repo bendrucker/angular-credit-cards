@@ -13,7 +13,7 @@ $ npm install angular-credit-cards
 $ bower install angular-credit-cards
 ```
 
-## Getting Started
+## Setup
 
 Include `'angular-credit-cards'` in your module's dependencies:
 
@@ -35,6 +35,8 @@ If you'd like to use the [creditcards](https://www.npmjs.org/package/creditcards
 With the exception of `ccExp`, all directives require `ngModel` on their elements. While designed to be used together, all directives except `ccExp` can be used completely independently. 
 
 All directives apply a [numeric input pattern](http://bradfrostweb.com/blog/mobile/better-numerical-inputs-for-mobile-forms/) so that mobile browsers use a modified version of the enlarged telephone keypad. You should use `type="text"` for all `input` elements.
+
+<hr>
 
 ### Card Number (`cc-number`)
 
@@ -69,6 +71,8 @@ Enforcing a specific card type chosen with a `<select>`:
 </form>
 ```
 
+<hr>
+
 ### CVC (`cc-cvc`)
 
 ```html
@@ -81,6 +85,8 @@ Enforcing a specific card type chosen with a `<select>`:
 
 You can optionally specify a scope property that stores the card type as `cc-type`. For American Express cards, a 4 digit CVC is expected. For all other card types, 3 digits are expected.
 
+<hr>
+
 ### Expiration (`cc-exp`, `cc-exp-month`, `cc-exp-year`)
 
 ```html
@@ -90,21 +96,28 @@ You can optionally specify a scope property that stores the card type as `cc-typ
 </div>
 ```
 
-* `cc-exp-month`
-  * Sets `maxlength="2"`
-  * Validates the month
-  * Converts it to a number
-* `cc-exp-year`
-  * Sets `maxlength="2"` (or `4` with the `full-year` attribute)
-  * Converts the year to a 4 digit number (`'14'` -> `2014`), unless `full-year` is added
-  * Validates the year
-  * Validates that the expiration year has not passed
-* `cc-exp`
-  * Validates that the month/year pair has not passed
+#### `cc-exp-month`
+
+* Sets `maxlength="2"`
+* Validates the month
+* Converts it to a number
+
+#### `cc-exp-year`
+
+* Sets `maxlength="2"` (or `4` with the `full-year` attribute)
+* Converts the year to a 4 digit number (`'14'` -> `2014`), unless `full-year` is added
+* Validates the year
+* Validates that the expiration year has not passed
+
+#### `cc-exp`
+
+Validates that the month/year pair has not passed
 
 `cc-exp-month` and `cc-exp-year` should both be placed on `input` elements with `type="text"` or no `type` attribute. The browser's normal maxlength behavior (preventing input after the specified number of characters and truncating pasted text to that length) does not work with `type="number"`. Both directives will handle parsing the date components into numbers internally. 
 
 `cc-exp` must be placed on a parent element of `cc-exp-month` and `cc-exp-year`.
+
+<hr>
 
 ## Form Validation
 
