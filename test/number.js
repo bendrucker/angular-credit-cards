@@ -59,7 +59,7 @@ describe('cc-number', function () {
     expect(controller.$error.ccNumberType).to.be.true;
   });
 
-  describe('$type', function () {
+  describe('$ccType', function () {
 
     var ccNumberController;
     beforeEach(function () {
@@ -70,32 +70,13 @@ describe('cc-number', function () {
     it('exposes a calculated card type', function () {
       controller.$setViewValue('4242424242424242');
       scope.$digest();
-      expect(ccNumberController.$type).to.equal('Visa');
-    });
-
-    it('exposes a specified card type', function () {
-      scope.cardType = 'Visa';
-      scope.$digest();
-      expect(ccNumberController.$type).to.equal('Visa');
-    });
-
-    it('will not overwrite a defined type', function () {
-      scope.cardType = 'Visa';
-      scope.$digest();
-      controller.$setViewValue('4242424242424242');
-      scope.$digest();
-      expect(ccNumberController.$type).to.equal('Visa');
-    });
-
-    it('can handle an undefined type', function () {
-      ccNumberController.setType();
-      expect(ccNumberController.$type).to.be.undefined;
+      expect(ccNumberController.type).to.equal('Visa');
     });
 
     it('syncs the type with the ngModelController', function () {
-      ccNumberController.$type = 'Visa';
+      controller.$setViewValue('4242424242424242');
       scope.$digest();
-      expect(controller.$type).to.equal('Visa');
+      expect(controller.$ccType).to.equal('Visa');
     });
 
   });

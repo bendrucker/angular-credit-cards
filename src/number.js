@@ -1,17 +1,15 @@
 'use strict';
 
-var card      = require('creditcards').card;
+var card = require('creditcards').card;
 
-module.exports = function () {
+module.exports = function ($parse) {
   return {
     restrict: 'A',
     require: ['ngModel', 'ccNumber'],
-    scope: {
-      ccType: '='
-    },
     controller: function () {
-      this.setType = function (type) {
-        this.$type = type;
+      var expectedType;
+      this.expect = function (type) {
+        expectedType = type;
       };
     },
     compile: function (element, attributes) {
@@ -21,28 +19,26 @@ module.exports = function () {
         var ngModelController = controllers[0];
         var ccNumberController = controllers[1];
 
-        scope.$watch(function () {
-          return ccNumberController.$type;
-        }, function (type) {
-          ngModelController.$type = type;
+        scope.$watch(attributes.ngModel, function (number) {
+          ngModelController.$ccType = ccNumberController.type = card.type(number);
         });
 
-        scope.$watch('ccType', function (type) {
+        scope.$watch(attributes.ccType, function (type) {
+          ccNumberController.expect(type);
           ngModelController.$validate();
-          ccNumberController.setType(type);
         });
 
         ngModelController.$parsers.unshift(function (number) {
-          if (!scope.ccType) ccNumberController.setType(card.type(number));
           return card.parse(number);
         });
         ngModelController.$validators.ccNumber = function (number) {
           return card.isValid(number);
         };
         ngModelController.$validators.ccNumberType = function (number) {
-          return card.isValid(number, scope.ccType);
+          return card.isValid(number, $parse(attributes.ccType)(scope));
         };
       };
     }
   };
 };
+module.exports.$inject = ['$parse'];
