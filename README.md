@@ -30,11 +30,11 @@ angular.module('myApp', [
 
 If you'd like to use the [creditcards](https://www.npmjs.org/package/creditcards) API directly, you can inject the service as `creditcards`.
 
-## Usage and API
+## API
 
 With the exception of `ccExp`, all directives require `ngModel` on their elements. While designed to be used together, all directives except `ccExp` can be used completely independently. 
 
-All directives apply a [numeric input pattern](http://bradfrostweb.com/blog/mobile/better-numerical-inputs-for-mobile-forms/) so that mobile browsers use a modified version of the enlarged telephone keypad. You can optionally set `type="number"` for the month (`cc-exp-month`) and year (`cc-exp-year`) inputs. You should use `type="text"` for `cc-number` and `cc-cvc`.
+All directives apply a [numeric input pattern](http://bradfrostweb.com/blog/mobile/better-numerical-inputs-for-mobile-forms/) so that mobile browsers use a modified version of the enlarged telephone keypad. You should use `type="text"` for all `input` elements.
 
 ### Card Number (`cc-number`)
 
