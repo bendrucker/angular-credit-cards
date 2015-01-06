@@ -65,7 +65,7 @@ Enforcing a specific card type chosen with a `<select>`:
 
 ```html
 <form name="paymentForm">
-  <select ng-model="cardType" ng-options="type in ['Visa', 'American Express', 'MasterCard']"></select>
+  <select ng-model="cardType" ng-options="type for type in ['Visa', 'American Express', 'MasterCard']"></select>
   <input type="text" ng-model="card.number" name="cardNumber" cc-number cc-type="cardType" />
   <p ng-show="paymentForm.cardNumber.$error.ccNumberType">That's not a valid {{cardType}}</p>
 </form>
