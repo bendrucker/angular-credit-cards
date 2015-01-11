@@ -119,14 +119,16 @@ Validates that the month/year pair has not passed
 
 <hr>
 
-## Form Validation
+## Integration
 
-Background Reading: 
+If you're not fully familiar with form validation in Angular, these may be helpful:
 * [Angular Documentation: Forms](https://docs.angularjs.org/guide/forms)
 * [Angular Form Validation (Scotch.io)](http://scotch.io/tutorials/javascript/angularjs-form-validation)
 * [Form validation with AngularJS (ng-newsletter)](http://www.ng-newsletter.com/posts/validations.html)
 
 angular-credit-cards sets validity keys that match the directive names (`ccNumber`, `ccCvc`, `ccExp`, `ccExpMonth`, `ccExpYear`). You can use these keys or the form css classes in order to display error messages.
+
+You can also try a [live demo](http://embed.plnkr.co/uE47aZ/preview) and experiment with various inputs and see how they're validated.
 
 ## License
 
