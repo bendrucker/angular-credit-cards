@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = require('angular')
+module.exports = (window.angular || require('angular'))
   .module('credit-cards', [])
   .value('creditcards', require('creditcards'))
   .directive('ccNumber', require('./number'))
