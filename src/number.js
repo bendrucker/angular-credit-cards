@@ -7,10 +7,7 @@ module.exports = function ($parse) {
     restrict: 'A',
     require: ['ngModel', 'ccNumber'],
     controller: function () {
-      var expectedType;
-      this.expect = function (type) {
-        expectedType = type;
-      };
+      this.type = null;
     },
     compile: function (element, attributes) {
       attributes.$set('pattern', '[0-9]*');
@@ -24,7 +21,6 @@ module.exports = function ($parse) {
         });
 
         scope.$watch(attributes.ccType, function (type) {
-          ccNumberController.expect(type);
           ngModelController.$validate();
         });
 
