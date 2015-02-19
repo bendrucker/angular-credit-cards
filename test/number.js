@@ -6,14 +6,13 @@ describe('cc-number', function () {
 
   beforeEach(angular.mock.module(require('../')));
 
-  var element, scope, controller;
+  var $compile, element, scope, controller;
   beforeEach(angular.mock.inject(function ($injector) {
-    var $compile = $injector.get('$compile');
-    element      = angular.element('<input ng-model="card.number" cc-number cc-type="cardType" />');
-    scope        = $injector.get('$rootScope').$new();
-    scope.card   = {};
-    $compile(element)(scope);
-    controller   = element.controller('ngModel');
+    $compile   = $injector.get('$compile');
+    element    = angular.element('<input ng-model="card.number" cc-number cc-type="cardType" />');
+    scope      = $injector.get('$rootScope').$new();
+    scope.card = {};
+    controller = $compile(element)(scope).controller('ngModel');
   }));
 
   it('adds a numeric pattern', function () {
@@ -77,6 +76,29 @@ describe('cc-number', function () {
       controller.$setViewValue('4242424242424242');
       scope.$digest();
       expect(controller.$ccType).to.equal('Visa');
+    });
+
+  });
+
+  describe('$ccEagerType', function () {
+
+    var ccNumberController;
+    beforeEach(function () {
+      element.attr('cc-eager-type', '');
+      ccNumberController = $compile(element)(scope).controller('ccNumber');
+      controller = element.controller('ngModel');
+      scope.$digest();
+    });
+
+    it('eagerly checks the type', function () {
+      controller.$setViewValue('42');
+      scope.$digest();
+      expect(ccNumberController.eagerType).to.equal('Visa');
+    });
+
+    it('syncs the eager type with the ngModelController', function () {
+      controller.$setViewValue('42');
+      expect(controller.$ccEagerType).to.equal('Visa');
     });
 
   });

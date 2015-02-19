@@ -8,6 +8,7 @@ module.exports = function ($parse) {
     require: ['ngModel', 'ccNumber'],
     controller: function () {
       this.type = null;
+      this.eagerType = null;
     },
     compile: function (element, attributes) {
       attributes.$set('pattern', '[0-9]*');
@@ -19,6 +20,17 @@ module.exports = function ($parse) {
         scope.$watch(attributes.ngModel, function (number) {
           ngModelController.$ccType = ccNumberController.type = card.type(number);
         });
+
+        function $viewValue () {
+          return ngModelController.$viewValue;
+        }
+        if (typeof attributes.ccEagerType !== 'undefined') {
+          scope.$watch($viewValue, function eagerTypeCheck (number) {
+            if (!number) return;
+            number = card.parse(number);
+            ngModelController.$ccEagerType = ccNumberController.eagerType = card.type(number, true);
+          });
+        }
 
         scope.$watch(attributes.ccType, function (type) {
           ngModelController.$validate();

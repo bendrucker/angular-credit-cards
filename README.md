@@ -50,15 +50,22 @@ All directives apply a [numeric input pattern](http://bradfrostweb.com/blog/mobi
 * Otherwise, checks whether the card matches any valid card type
 * Exposes the [card type](https://github.com/bendrucker/creditcards/blob/master/README.md#cardtypenumber---string) as `$ccType` on the model controller
 
-The `cc-type` property is optional. If its value is defined on the scope, the card number will be checked against that type in addition to the Luhh algorithm. A special validity key—`ccNumberType`—indicates whether the card matched the specified type. If no type is provided, `ccNumberType` will always be valid for any card that passes Luhn and matches any card type. 
+The `cc-type` property is optional. If its value is defined on the scope, the card number will be checked against that type in addition to the Luhh algorithm. A special validity key—`ccNumberType`—indicates whether the card matched the specified type. If no type is provided, `ccNumberType` will always be valid for any card that passes Luhn and matches any card type.
+
+You can also enable eager card type detection to match against card type just its leading digits (e.g. a `4` for Visa). Add the `cc-eager-type` attribute to your element to enable eager type detection. The eagerly matched type will be available as `$ccEagerType` on the model controller. 
 
 Displaying the card type from a user input:
 
 ```html
 <form name="paymentForm">
-  <input type="text" ng-model="card.number" name="cardNumber" cc-number />
+  <input type="text" ng-model="card.number" name="cardNumber" cc-number cc-eager-type />
 </form>
-Paying with {{cardNumber.$ccType}}
+<p ng-show="paymentForm.cardNumber.$invalid && paymentForm.cardNumber.$ccEagerType">
+  Looks like you're typing a {{paymentForm.cardNumber.$ccEagerType}} number!
+</p>
+<p ng-show="paymentForm.cardNumber.$valid">
+  Yes, that looks like a valid {{paymentForm.cardNumber.$ccType}} number!
+</p>
 ```
 
 Enforcing a specific card type chosen with a `<select>`:
