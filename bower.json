@@ -6,7 +6,7 @@
     "Ben Drucker <bvdrucker@gmail.com>"
   ],
   "description": "Angular directives for formatting and validating credit card inputs",
-  "main": "./src/index.js",
+  "main": "./release/angular-credit-cards.js",
   "moduleType": [
     "node"
   ],
