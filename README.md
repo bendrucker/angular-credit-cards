@@ -122,7 +122,7 @@ Validates that the month/year pair has not passed
 
 `cc-exp-month` and `cc-exp-year` should both be placed on `input` elements with `type="text"` or no `type` attribute. The browser's normal maxlength behavior (preventing input after the specified number of characters and truncating pasted text to that length) does not work with `type="number"`. Both directives will handle parsing the date components into numbers internally. 
 
-`cc-exp` must be placed on a parent element of `cc-exp-month` and `cc-exp-year`.
+`cc-exp` must be placed on a parent element of `cc-exp-month` and `cc-exp-year`. Because `ccExp` is not an input and adds a validation property directly to the form, you cannot access its validity as `myForm.ccExp.$valid`. Instead use `myForm.$error.ccExp` to determine whether to show a validation error. 
 
 <hr>
 
