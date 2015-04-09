@@ -7,9 +7,9 @@ describe('cc-number', function () {
   beforeEach(angular.mock.module(require('../')));
 
   var $compile, element, scope, controller;
-  beforeEach(angular.mock.inject(function ($injector) {
+  beforeEach(angular.mock.inject(function ($injector, $parse) {
     $compile   = $injector.get('$compile');
-    element    = angular.element('<input ng-model="card.number" cc-number cc-type="cardType" />');
+    element    = angular.element('<input ng-model="card.number" cc-number />');
     scope      = $injector.get('$rootScope').$new();
     scope.card = {};
     controller = $compile(element)(scope).controller('ngModel');
@@ -44,21 +44,31 @@ describe('cc-number', function () {
     expect(scope.card.number).to.be.undefined;
   });
 
-  it('rejects an invalid card', function () {
-    controller.$setViewValue('4242424242424241');
-    expect(controller.$error.ccNumber).to.be.true;
-    expect(scope.card.number).to.be.undefined;
+  describe('ccType (expected type)', function () {
+
+    beforeEach(function () {
+      element.attr('cc-type', 'cardType');
+      controller = $compile(element)(scope).controller('ngModel');
+    });
+
+    it('accepts a valid card with specified type', function () {
+      scope.cardType = 'Visa';
+      controller.$setViewValue('4242 4242 4242 4242');
+      scope.$digest();
+      expect(controller.$error.ccNumberType).to.not.be.ok;
+    });
+
+    it('rejects a valid card when the type is a mismatch', function () {
+      scope.cardType = 'American Express';
+      controller.$setViewValue('4242 4242 4242 4242');
+      scope.$digest();
+      expect(controller.$error.ccNumber).to.not.be.ok;
+      expect(controller.$error.ccNumberType).to.be.true;
+    });
+
   });
 
-  it('rejects an invalid card when the type is a mismatch', function () {
-    scope.cardType = 'American Express';
-    controller.$setViewValue('4242 4242 4242 4242');
-    scope.$digest();
-    expect(controller.$error.ccNumber).to.not.be.ok;
-    expect(controller.$error.ccNumberType).to.be.true;
-  });
-
-  describe('$ccType', function () {
+  describe('$ccType (actual type)', function () {
 
     var ccNumberController;
     beforeEach(function () {

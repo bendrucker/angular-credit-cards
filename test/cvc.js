@@ -11,7 +11,7 @@ describe('cc-cvc', function () {
     $compile   = $injector.get('$compile');
     scope      = $injector.get('$rootScope').$new();
     scope.card = {};
-    element    = angular.element('<input ng-model="card.cvc" cc-cvc cc-type="cardType" />');
+    element    = angular.element('<input ng-model="card.cvc" cc-cvc />');
     controller = $compile(element)(scope).controller('ngModel');
   }));
 
@@ -37,16 +37,6 @@ describe('cc-cvc', function () {
     expect(scope.card.cvc).to.equal('1234');
   });
 
-  it('can validate against the card type', function () {
-    scope.cardType = 'visa';
-    scope.card.cvc = '1234';
-    scope.$digest();
-    expect(controller.$valid).to.be.false;
-    scope.cardType = 'americanExpress';
-    scope.$digest();
-    expect(controller.$valid).to.be.true;
-  });
-
   it('does not accept numbers', function () {
     controller.$setViewValue(123);
     scope.$digest();
@@ -57,6 +47,25 @@ describe('cc-cvc', function () {
     controller.$setViewValue('abc');
     scope.$digest();
     expect(scope.card.cvc).to.be.undefined;
+  });
+
+  describe('ccType', function () {
+
+    beforeEach(function () {
+      element.attr('cc-type', 'cardType');
+      controller = $compile(element)(scope).controller('ngModel');
+    });
+
+    it('validates against the card type', function () {
+      scope.cardType = 'visa';
+      scope.card.cvc = '1234';
+      scope.$digest();
+      expect(controller.$valid).to.be.false;
+      scope.cardType = 'americanExpress';
+      scope.$digest();
+      expect(controller.$valid).to.be.true;
+    });
+
   });
 
 });

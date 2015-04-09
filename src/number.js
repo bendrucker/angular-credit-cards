@@ -32,9 +32,11 @@ module.exports = function ($parse) {
           });
         }
 
-        scope.$watch(attributes.ccType, function (type) {
-          ngModelController.$validate();
-        });
+        if (attributes.ccType) {
+          scope.$watch(attributes.ccType, function (type) {
+            ngModelController.$validate();
+          });
+        }
 
         ngModelController.$parsers.unshift(function (number) {
           return card.parse(number);

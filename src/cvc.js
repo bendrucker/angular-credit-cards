@@ -13,9 +13,11 @@ module.exports = function ($parse) {
         ngModelController.$validators.ccCvc = function (value) {
           return cvc.isValid(value, $parse(attributes.ccType)(scope));
         };
-        scope.$watch(attributes.ccType, function () {
-          ngModelController.$validate();
-        });
+        if (attributes.ccType) {
+          scope.$watch(attributes.ccType, function () {
+            ngModelController.$validate();
+          });
+        }
       };
     }
   };
