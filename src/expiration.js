@@ -54,6 +54,7 @@ module.exports.month = function () {
     compile: function (element, attributes) {
       attributes.$set('maxlength', 2);
       attributes.$set('pattern', '[0-9]*');
+      attributes.$set('xAutocompletetype', 'cc-exp-month');
 
       return function (scope, element, attributes, controllers) {
         var ngModelCtrl = controllers[0];
@@ -76,6 +77,7 @@ module.exports.year = function () {
       var fullYear = attributes.fullYear !== void 0;
       attributes.$set('maxlength', fullYear ? 4 : 2);
       attributes.$set('pattern', '[0-9]*');
+      attributes.$set('xAutocompletetype', 'cc-exp-year');
 
       return function (scope, element, attributes, controllers) {
         var ngModelCtrl = controllers[0];

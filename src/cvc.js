@@ -9,6 +9,8 @@ module.exports = function ($parse) {
     compile: function (element, attributes) {
       attributes.$set('maxlength', 4);
       attributes.$set('pattern', '[0-9]*');
+      attributes.$set('xAutocompletetype', 'cc-csc');
+
       return function (scope, element, attributes, ngModelController) {
         ngModelController.$validators.ccCvc = function (value) {
           return cvc.isValid(value, $parse(attributes.ccType)(scope));

@@ -19,6 +19,10 @@ describe('cc-number', function () {
     expect(element.attr('pattern')).to.equal('[0-9]*');
   });
 
+  it('adds an autocomplete attribute', function () {
+    expect(element.attr('x-autocompletetype')).to.equal('cc-number');
+  });
+
   it('accepts a valid card', function () {
     controller.$setViewValue('4242 4242 4242 4242');
     expect(controller.$valid).to.be.true;

@@ -12,6 +12,7 @@ module.exports = function ($parse) {
     },
     compile: function (element, attributes) {
       attributes.$set('pattern', '[0-9]*');
+      attributes.$set('xAutocompletetype', 'cc-number');
 
       return function (scope, element, attributes, controllers) {
         var ngModelController = controllers[0];

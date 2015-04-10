@@ -23,6 +23,10 @@ describe('cc-cvc', function () {
     expect(element.attr('pattern')).to.equal('[0-9]*');
   });
 
+  it('adds an autocomplete attribute', function () {
+    expect(element.attr('x-autocompletetype')).to.equal('cc-csc');
+  });
+
   it('accepts a 3 digit numeric', function () {
     controller.$setViewValue('123');
     scope.$digest();

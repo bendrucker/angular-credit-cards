@@ -77,6 +77,10 @@ describe('Expiration', function () {
       expect(element.attr('maxlength')).to.equal('2');
     });
 
+    it('adds an autocomplete attribute', function () {
+      expect(element.attr('x-autocompletetype')).to.equal('cc-exp-month');
+    });
+
     it('validates maxlength with type="number" (#13)', function () {
       element = element.clone().attr('type', 'number');
       controller = $compile(element)($scope).controller('ngModel');
@@ -126,6 +130,10 @@ describe('Expiration', function () {
 
     it('adds a numeric pattern', function () {
       expect(element.attr('pattern')).to.equal('[0-9]*');
+    });
+
+    it('adds an autocomplete attribute', function () {
+      expect(element.attr('x-autocompletetype')).to.equal('cc-exp-year');
     });
 
     it('is invalid when in the past', function () {
