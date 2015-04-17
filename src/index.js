@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = require('angular')
   .module('credit-cards', [])
@@ -8,4 +8,4 @@ module.exports = require('angular')
   .directive('ccExpMonth', require('./expiration').month)
   .directive('ccExpYear', require('./expiration').year)
   .directive('ccCvc', require('./cvc'))
-  .name;
+  .name

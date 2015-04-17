@@ -1,27 +1,27 @@
-'use strict';
+'use strict'
 
-var cvc = require('creditcards').cvc;
+var cvc = require('creditcards').cvc
 
 module.exports = function ($parse) {
   return {
     restrict: 'A',
     require: 'ngModel',
     compile: function (element, attributes) {
-      attributes.$set('maxlength', 4);
-      attributes.$set('pattern', '[0-9]*');
-      attributes.$set('xAutocompletetype', 'cc-csc');
+      attributes.$set('maxlength', 4)
+      attributes.$set('pattern', '[0-9]*')
+      attributes.$set('xAutocompletetype', 'cc-csc')
 
       return function (scope, element, attributes, ngModelController) {
         ngModelController.$validators.ccCvc = function (value) {
-          return cvc.isValid(value, $parse(attributes.ccType)(scope));
-        };
+          return cvc.isValid(value, $parse(attributes.ccType)(scope))
+        }
         if (attributes.ccType) {
           scope.$watch(attributes.ccType, function () {
-            ngModelController.$validate();
-          });
+            ngModelController.$validate()
+          })
         }
-      };
+      }
     }
-  };
-};
-module.exports.$inject = ['$parse'];
+  }
+}
+module.exports.$inject = ['$parse']

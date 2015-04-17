@@ -4,7 +4,7 @@
   "description": "Angular directives for formatting and validating credit card inputs",
   "main": "./src",
   "scripts": {
-    "test": "karma start --single-run"
+    "test": "standard && karma start --single-run"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,6 @@
     "angular": "~1.3.4",
     "angular-mocks": "~1.3.4",
     "browserify": "~6.3.3",
-    "browserify-istanbul": "0",
     "chai": "1",
     "karma": "0.12",
     "karma-browserify": "^1.0.0",
@@ -41,9 +40,11 @@
     "mocha": "1",
     "partialify": "~3.1.1",
     "sinon": "1",
-    "sinon-chai": "2"
+    "sinon-chai": "2",
+    "standard": "~3.6.1"
   },
   "dependencies": {
+    "babelify": "~6.0.2",
     "browserify-shim": "~3.8.0",
     "creditcards": "~1.4.0"
   },
