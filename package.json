@@ -44,6 +44,7 @@
     "standard": "~3.6.1"
   },
   "dependencies": {
+    "ap": "~0.2.0",
     "babelify": "~6.0.2",
     "browserify-shim": "~3.8.0",
     "creditcards": "~1.4.0"
@@ -53,6 +54,7 @@
   },
   "browserify": {
     "transform": [
+      "babelify",
       "browserify-shim"
     ]
   },

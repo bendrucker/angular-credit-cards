@@ -1,96 +1,94 @@
 'use strict'
 
-var expiration = require('creditcards').expiration
-var angular = require('angular')
+import angular from 'angular'
+import {expiration} from 'creditcards'
+const {month, year, isPast} = expiration
+import {partialRight} from 'ap'
 
-module.exports = function () {
+export default function ccExp () {
   return {
     restrict: 'AE',
     require: 'ccExp',
     controller: CcExpController,
-    link: function (scope, element, attributes, controller) {
-      controller.$watch()
+    link: (scope, element, attributes, ccExp) => {
+      ccExp.$watch()
     }
   }
 }
 
+CcExpController.$inject = ['$scope', '$element']
 function CcExpController ($scope, $element) {
-  var nullFormCtrl = {
+  const nullFormCtrl = {
     $setValidity: angular.noop
   }
-  var parentForm = $element.inheritedData('$formController') || nullFormCtrl
-  var month = {}
-  var year = {}
-  this.setMonth = function (monthCtrl) {
-    month = monthCtrl
+  const parentForm = $element.inheritedData('$formController') || nullFormCtrl
+  const ngModel = {
+    year: {},
+    month: {}
   }
-  this.setYear = function (yearCtrl) {
-    year = yearCtrl
+  this.setMonth = (monthCtrl) => {
+    ngModel.month = monthCtrl
   }
-  function setValidity (exp) {
-    var valid = !!exp.month && !!exp.year && !expiration.isPast(exp.month, exp.year)
+  this.setYear = (yearCtrl) => {
+    ngModel.year = yearCtrl
+  }
+  function setValidity ({month, year}) {
+    const valid = !!month && !!year && !isPast(month, year)
     parentForm.$setValidity('ccExp', valid, $element)
   }
-  this.$watch = function $watch () {
-    $scope.$watch(function () {
+  this.$watch = function $watchExp () {
+    $scope.$watch(() => {
       return {
-        month: month.$modelValue,
-        year: year.$modelValue
+        month: ngModel.month.$modelValue,
+        year: ngModel.year.$modelValue
       }
     }, setValidity, true)
   }
 }
-CcExpController.$inject = ['$scope', '$element']
 
-var nullCcExpCtrl = {
+const nullCcExp = {
   setMonth: angular.noop,
   setYear: angular.noop
 }
 
-module.exports.month = function () {
+export function ccExpMonth () {
   return {
     restrict: 'A',
     require: ['ngModel', '^?ccExp'],
-    compile: function (element, attributes) {
+    compile: (element, attributes) => {
       attributes.$set('maxlength', 2)
       attributes.$set('pattern', '[0-9]*')
       attributes.$set('xAutocompletetype', 'cc-exp-month')
 
-      return function (scope, element, attributes, controllers) {
-        var ngModelCtrl = controllers[0]
-        var ccExpCtrl = controllers[1] || nullCcExpCtrl
-        ccExpCtrl.setMonth(ngModelCtrl)
-        ngModelCtrl.$parsers.unshift(function (month) {
-          return expiration.month.parse(month)
-        })
-        ngModelCtrl.$validators.ccExpMonth = expiration.month.isValid
+      return (scope, element, attributes, [ngModel, ccExp]) => {
+        ccExp = ccExp || nullCcExp
+        ccExp.setMonth(ngModel)
+        ngModel.$parsers.unshift(month.parse)
+        ngModel.$validators.ccExpMonth = month.isValid
       }
     }
   }
 }
 
-module.exports.year = function () {
+export function ccExpYear () {
   return {
     restrict: 'A',
     require: ['ngModel', '^?ccExp'],
-    compile: function (element, attributes) {
-      var fullYear = attributes.fullYear !== void 0
+    compile: (element, attributes) => {
+      const fullYear = attributes.fullYear !== undefined
       attributes.$set('maxlength', fullYear ? 4 : 2)
       attributes.$set('pattern', '[0-9]*')
       attributes.$set('xAutocompletetype', 'cc-exp-year')
 
-      return function (scope, element, attributes, controllers) {
-        var ngModelCtrl = controllers[0]
-        var ccExpCtrl = controllers[1] || nullCcExpCtrl
-        ccExpCtrl.setYear(ngModelCtrl)
-        ngModelCtrl.$parsers.unshift(function (year) {
-          return expiration.year.parse(year, !fullYear)
+      return (scope, element, attributes, [ngModel, ccExp]) => {
+        ccExp = ccExp || nullCcExp
+        ccExp.setYear(ngModel)
+        ngModel.$parsers.unshift(partialRight(year.parse, !fullYear))
+        ngModel.$formatters.unshift((value) => {
+          return value ? year.format(value, !fullYear) : ''
         })
-        ngModelCtrl.$formatters.unshift(function (year) {
-          return year ? expiration.year.format(year, !fullYear) : ''
-        })
-        ngModelCtrl.$validators.ccExpYear = function (year) {
-          return expiration.year.isValid(year) && !expiration.year.isPast(year)
+        ngModel.$validators.ccExpYear = (value) => {
+          return year.isValid(value) && !year.isPast(value)
         }
       }
     }

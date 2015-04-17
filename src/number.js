@@ -1,8 +1,10 @@
 'use strict'
 
-var card = require('creditcards').card
+import {card} from 'creditcards'
+export default factory
 
-module.exports = function ($parse) {
+factory.$inject = ['$parse']
+function factory ($parse) {
   return {
     restrict: 'A',
     require: ['ngModel', 'ccNumber'],
@@ -14,42 +16,33 @@ module.exports = function ($parse) {
       attributes.$set('pattern', '[0-9]*')
       attributes.$set('xAutocompletetype', 'cc-number')
 
-      return function (scope, element, attributes, controllers) {
-        var ngModelController = controllers[0]
-        var ccNumberController = controllers[1]
-
-        scope.$watch(attributes.ngModel, function (number) {
-          ngModelController.$ccType = ccNumberController.type = card.type(number)
+      return function (scope, element, attributes, [ngModel, ccNumber]) {
+        scope.$watch(attributes.ngModel, (number) => {
+          ngModel.$ccType = ccNumber.type = card.type(number)
         })
-
         function $viewValue () {
-          return ngModelController.$viewValue
+          return ngModel.$viewValue
         }
         if (typeof attributes.ccEagerType !== 'undefined') {
           scope.$watch($viewValue, function eagerTypeCheck (number) {
             if (!number) return
             number = card.parse(number)
-            ngModelController.$ccEagerType = ccNumberController.eagerType = card.type(number, true)
+            ngModel.$ccEagerType = ccNumber.eagerType = card.type(number, true)
           })
         }
-
         if (attributes.ccType) {
-          scope.$watch(attributes.ccType, function (type) {
-            ngModelController.$validate()
+          scope.$watch(attributes.ccType, function () {
+            ngModel.$validate()
           })
         }
-
-        ngModelController.$parsers.unshift(function (number) {
-          return card.parse(number)
-        })
-        ngModelController.$validators.ccNumber = function (number) {
+        ngModel.$parsers.unshift(card.parse)
+        ngModel.$validators.ccNumber = (number) => {
           return card.isValid(number)
         }
-        ngModelController.$validators.ccNumberType = function (number) {
+        ngModel.$validators.ccNumberType = function (number) {
           return card.isValid(number, $parse(attributes.ccType)(scope))
         }
       }
     }
   }
 }
-module.exports.$inject = ['$parse']

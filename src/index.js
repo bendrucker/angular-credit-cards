@@ -1,11 +1,17 @@
 'use strict'
 
-module.exports = require('angular')
+import angular from 'angular'
+import creditcards from 'creditcards'
+import number from './number'
+import {default as ccExp, ccExpMonth, ccExpYear} from './expiration'
+import cvc from './cvc'
+
+export default angular
   .module('credit-cards', [])
-  .value('creditcards', require('creditcards'))
-  .directive('ccNumber', require('./number'))
-  .directive('ccExp', require('./expiration'))
-  .directive('ccExpMonth', require('./expiration').month)
-  .directive('ccExpYear', require('./expiration').year)
-  .directive('ccCvc', require('./cvc'))
+  .value('creditcards', creditcards)
+  .directive('ccNumber', number)
+  .directive('ccExp', ccExp)
+  .directive('ccExpMonth', ccExpMonth)
+  .directive('ccExpYear', ccExpYear)
+  .directive('ccCvc', cvc)
   .name
