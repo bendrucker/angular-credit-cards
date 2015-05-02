@@ -30,6 +30,13 @@ describe('cc-number', function () {
     expect(scope.card.number).to.equal('4242424242424242')
   })
 
+  it('formats the card number during entry', function () {
+    controller.$setViewValue('42424')
+    scope.$digest()
+    expect(controller.$viewValue).to.equal('4242 4')
+    expect(element.val()).to.equal('4242 4')
+  })
+
   it('accepts a valid card with specified type', function () {
     scope.cardType = 'Visa'
     controller.$setViewValue('4242 4242 4242 4242')

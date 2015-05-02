@@ -36,6 +36,10 @@ function factory ($parse) {
           })
         }
         ngModel.$parsers.unshift(card.parse)
+        scope.$watch($viewValue, function formatInput (input) {
+          ngModel.$setViewValue(card.format(card.parse(input)))
+          ngModel.$render()
+        })
         ngModel.$validators.ccNumber = (number) => {
           return card.isValid(number)
         }
