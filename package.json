@@ -28,7 +28,6 @@
   "devDependencies": {
     "angular": "~1.3.4",
     "angular-mocks": "~1.3.4",
-    "browserify": "~6.3.3",
     "chai": "1",
     "karma": "0.12",
     "karma-browserify": "^1.0.0",
@@ -39,9 +38,11 @@
     "karma-phantomjs-launcher": "0",
     "mocha": "1",
     "partialify": "~3.1.1",
+    "publicist": "~4.0.4",
+    "publicist-umd": "~1.0.2",
     "sinon": "1",
     "sinon-chai": "2",
-    "standard": "~3.6.1"
+    "standard": "bendrucker/standard#babel"
   },
   "dependencies": {
     "ap": "~0.2.0",
@@ -60,5 +61,17 @@
   },
   "browserify-shim": {
     "angular": "global:angular"
+  },
+  "publicist": {
+    "builds": {
+      "umd": {
+        "dest": "./release"
+      }
+    }
+  },
+  "standard": {
+    "ignore": [
+      "release/"
+    ]
   }
 }
