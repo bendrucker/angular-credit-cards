@@ -44,7 +44,8 @@ All directives apply a [numeric input pattern](http://bradfrostweb.com/blog/mobi
 <input type="text" ng-model="card.number" cc-number cc-type="cardType" />
 ```
 
-* Strips all punctuation and spaces
+* Can format your inputs into space-delimited groups (e.g. `4242 4242 4242 4242`) by adding the `cc-format` option
+* Strips all punctuation and spaces in the model
 * Validates the card against the [Luhn algorithm](http://en.wikipedia.org/wiki/Luhn_algorithm)
 * Checks whether the card is the type specified in scope property in `cc-type` (optional)
 * Otherwise, checks whether the card matches any valid card type
