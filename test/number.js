@@ -10,7 +10,7 @@ describe('cc-number', function () {
   var $compile, element, scope, controller
   beforeEach(angular.mock.inject(function ($injector, $parse) {
     $compile = $injector.get('$compile')
-    element = angular.element('<input ng-model="card.number" cc-number />')
+    element = angular.element('<input ng-model="card.number" cc-number cc-format />')
     scope = $injector.get('$rootScope').$new()
     scope.card = {}
     controller = $compile(element)(scope).controller('ngModel')
@@ -47,6 +47,31 @@ describe('cc-number', function () {
     controller.$setViewValue('42')
     expect(controller.$error.ccNumber).to.be.true
     expect(scope.card.number).to.be.undefined
+  })
+
+  describe('ccFormat (card formatting)', function () {
+    it('formats the card number during entry', function () {
+      controller.$setViewValue('42424')
+      scope.$digest()
+      expect(controller.$viewValue).to.equal('4242 4')
+      expect(element.val()).to.equal('4242 4')
+    })
+
+    it('preserves the cursor position', function () {
+      controller.$setViewValue('42')
+      scope.$digest()
+      element[0].setSelectionRange(0, 0)
+      controller.$setViewValue('40')
+      scope.$digest()
+      expect(element[0].selectionEnd).to.equal(0)
+    })
+
+    it('increments the cursor after a space', function () {
+      controller.$setViewValue('42424')
+      scope.$digest()
+      expect(controller.$viewValue).to.equal('4242 4')
+      expect(element[0].selectionEnd).to.equal(6)
+    })
   })
 
   describe('ccType (expected type)', function () {
