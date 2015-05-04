@@ -19,12 +19,7 @@ module.exports = function (config) {
         'browserify-shim'
       ]
     },
-    reporters: ['progress', 'coverage'],
-    coverageReporter: {
-      type: 'lcov',
-      dir: 'coverage',
-      subdir: '.'
-    },
+    reporters: ['progress'],
     browsers: ['PhantomJS'],
     singleRun: false
   })
