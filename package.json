@@ -42,7 +42,7 @@
     "publicist-umd": "~1.0.2",
     "sinon": "1",
     "sinon-chai": "2",
-    "standard": "bendrucker/standard#babel"
+    "standard": "~3.7.3"
   },
   "dependencies": {
     "ap": "~0.2.0",
