@@ -57,15 +57,6 @@ describe('cc-number', function () {
       expect(element.val()).to.equal('4242 4')
     })
 
-    it('preserves the cursor position', function () {
-      controller.$setViewValue('42')
-      scope.$digest()
-      element[0].setSelectionRange(0, 0)
-      controller.$setViewValue('40')
-      scope.$digest()
-      expect(element[0].selectionEnd).to.equal(0)
-    })
-
     it('increments the cursor after a space', function () {
       controller.$setViewValue('42424')
       scope.$digest()
