@@ -24,6 +24,11 @@ describe('cc-number', function () {
     expect(element.attr('x-autocompletetype')).to.equal('cc-number')
   })
 
+  it('is initially pristine', function () {
+    scope.$digest()
+    expect(controller.$pristine).to.equal(true)
+  })
+
   it('accepts a valid card', function () {
     controller.$setViewValue('4242 4242 4242 4242')
     expect(controller.$valid).to.be.true

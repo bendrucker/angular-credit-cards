@@ -36,7 +36,8 @@ function factory ($parse) {
           })
         }
         if (typeof $attributes.ccFormat !== 'undefined') {
-          $scope.$watch($viewValue, function formatInput (input) {
+          $scope.$watch($viewValue, function formatInput (input, previous) {
+            if (!input) return
             const element = $element[0]
             const formatted = card.format(card.parse(input))
             ngModel.$setViewValue(formatted)
