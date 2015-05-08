@@ -51,6 +51,8 @@ All directives apply a [numeric input pattern](http://bradfrostweb.com/blog/mobi
 * Otherwise, checks whether the card matches any valid card type
 * Exposes the [card type](https://github.com/bendrucker/creditcards/blob/master/README.md#cardtypenumber---string) as `$ccType` on the model controller
 
+If you're using `cc-format`, you'll want to apply the [`novalidate`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-novalidate) attribute to disable native browser validation. The input pattern used to trigger the dialer keypad on mobile does not allow spaces, causing browsers that implement pattern validation to display an error tooltip.
+
 The `cc-type` property is optional. If its value is defined on the scope, the card number will be checked against that type in addition to the Luhh algorithm. A special validity key—`ccNumberType`—indicates whether the card matched the specified type. If no type is provided, `ccNumberType` will always be valid for any card that passes Luhn and matches any card type.
 
 You can also enable eager card type detection to match against card type with only leading digits (e.g. a `4` can immediately be detected as a Visa). Add the `cc-eager-type` attribute to your element to enable eager type detection. The eagerly matched type will be available as `$ccEagerType` on the model controller. 
