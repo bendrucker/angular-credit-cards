@@ -1,13 +1,3 @@
 language: node_js
-sudo: false
 node_js:
 - '0.10'
-deploy:
-  provider: npm
-  email: bvdrucker@gmail.com
-  api_key:
-    secure: t79WPYN2vfZIzl2n3LTzILzpcYUxV15MSpgqABcDJg8elGurzGV1LYCjT8deg2S1U+iRQ7hwFry9bf8TYQVs/fYRuVqz7Fq/nF1GtGT4G6pGQ3YiITPhCs6+5DX3T065XaLQqSv8h6cZjm7XBZBgyH8yheLUZDQcTkwK1iGSHVA=
-  on:
-    all_branches: true
-    tags: true
-    repo: bendrucker/angular-credit-cards
