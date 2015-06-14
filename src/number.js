@@ -1,7 +1,8 @@
 'use strict'
 
-import {card} from 'creditcards'
-export default factory
+var card = require('creditcards').card
+
+module.exports = factory
 
 factory.$inject = ['$parse']
 function factory ($parse) {
@@ -16,32 +17,40 @@ function factory ($parse) {
       $attributes.$set('pattern', '[0-9]*')
       $attributes.$set('xAutocompletetype', 'cc-number')
 
-      return function ($scope, $element, $attributes, [ngModel, ccNumber]) {
-        $scope.$watch($attributes.ngModel, (number) => {
+      return function ($scope, $element, $attributes, controllers) {
+        var ngModel = controllers[0]
+        var ccNumber = controllers[1]
+
+        $scope.$watch($attributes.ngModel, function (number) {
           ngModel.$ccType = ccNumber.type = card.type(number)
         })
+
         function $viewValue () {
           return ngModel.$viewValue
         }
-        if (typeof $attributes.ccEagerType !== 'undefined') {
+
+        if ($attributes.ccEagerType != null) {
           $scope.$watch($viewValue, function eagerTypeCheck (number) {
             if (!number) return
             number = card.parse(number)
             ngModel.$ccEagerType = ccNumber.eagerType = card.type(number, true)
           })
         }
+
         if ($attributes.ccType) {
           $scope.$watch($attributes.ccType, function () {
             ngModel.$validate()
           })
         }
-        if (typeof $attributes.ccFormat !== 'undefined') {
+
+        if ($attributes.ccFormat != null) {
           $scope.$watch($viewValue, function formatInput (input, previous) {
             if (!input) return
-            const element = $element[0]
-            const formatted = card.format(card.parse(input))
+            var element = $element[0]
+            var formatted = card.format(card.parse(input))
+
             ngModel.$setViewValue(formatted)
-            let {selectionEnd} = element
+            var selectionEnd = element.selectionEnd
             ngModel.$render()
             if (formatted && !formatted.charAt(selectionEnd - 1).trim()) {
               selectionEnd++
@@ -49,11 +58,14 @@ function factory ($parse) {
             element.setSelectionRange(selectionEnd, selectionEnd)
           })
         }
+
         ngModel.$parsers.unshift(card.parse)
-        ngModel.$validators.ccNumber = (number) => {
+
+        ngModel.$validators.ccNumber = function validateCcNumber (number) {
           return card.isValid(number)
         }
-        ngModel.$validators.ccNumberType = function (number) {
+
+        ngModel.$validators.ccNumberType = function validateCcNumberType (number) {
           return card.isValid(number, $parse($attributes.ccType)($scope))
         }
       }
