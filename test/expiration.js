@@ -5,6 +5,7 @@
 var expect = require('chai').use(require('sinon-chai')).expect
 var sinon = require('sinon')
 var angular = require('angular')
+require('angular-mocks/ngMock')
 
 describe('Expiration', function () {
   beforeEach(angular.mock.module(require('../')))

@@ -4,6 +4,7 @@
 
 var expect = require('chai').expect
 var angular = require('angular')
+require('angular-mocks/ngMock')
 
 describe('cc-number', function () {
   beforeEach(angular.mock.module(require('../')))
