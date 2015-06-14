@@ -76,6 +76,7 @@
   },
   "jspm": {
     "format": "es6",
+    "repository": "jspm",
     "dependencies": {
       "github:angular/bower-angular": "~1.4.0",
       "github:substack/node-ap": "~0.2.0",
