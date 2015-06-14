@@ -28,10 +28,9 @@
   "devDependencies": {
     "angular": "~1.4.0",
     "angular-mocks": "~1.4.0",
-    "chai": "1",
+    "chai": "~3.0.0",
     "karma": "0.12",
     "karma-browserify": "^1.0.0",
-    "karma-chai-sinon": "0",
     "karma-cli": "0",
     "karma-coverage": "0.2.6",
     "karma-mocha": "0",
@@ -40,8 +39,8 @@
     "partialify": "~3.1.1",
     "publicist": "~4.0.4",
     "publicist-umd": "~1.0.2",
-    "sinon": "1",
-    "sinon-chai": "2",
+    "sinon": "~1.15.3",
+    "sinon-chai": "~2.8.0",
     "standard": "~3.7.3"
   },
   "dependencies": {

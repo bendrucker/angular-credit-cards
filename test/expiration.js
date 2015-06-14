@@ -1,7 +1,9 @@
 'use strict'
 
-/*global describe, beforeEach, afterEach, it, expect, sinon*/
+/*global describe, beforeEach, afterEach, it*/
 
+var expect = require('chai').use(require('sinon-chai')).expect
+var sinon = require('sinon')
 var angular = require('angular')
 
 describe('Expiration', function () {
