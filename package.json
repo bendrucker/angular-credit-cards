@@ -31,8 +31,6 @@
     "brfs": "~1.4.0",
     "chai": "~3.0.0",
     "phantomjs": "~1.9.17",
-    "publicist": "~4.0.4",
-    "publicist-umd": "~1.0.2",
     "sinon": "~1.15.3",
     "standard": "~3.7.3",
     "zuul": "~3.0.0"
@@ -44,13 +42,6 @@
   },
   "peerDependencies": {
     "angular": ">=1.3 <1.5"
-  },
-  "publicist": {
-    "builds": {
-      "umd": {
-        "dest": "./release"
-      }
-    }
   },
   "standard": {
     "ignore": [
