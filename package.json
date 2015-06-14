@@ -76,7 +76,7 @@
   },
   "jspm": {
     "format": "es6",
-    "registry": "jspm"
+    "registry": "jspm",
     "dependencies": {
       "angular": "~1.4.0",
       "ap": "~0.2.0",
