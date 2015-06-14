@@ -1,0 +1,3 @@
+ui: mocha-bdd
+browserify:
+- transform: brfs

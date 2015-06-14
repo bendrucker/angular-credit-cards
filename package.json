@@ -4,7 +4,7 @@
   "description": "Angular directives for formatting and validating credit card inputs",
   "main": "./src",
   "scripts": {
-    "test": "standard && karma start --single-run"
+    "test": "standard && zuul --phantom -- test/*.js"
   },
   "repository": {
     "type": "git",
@@ -28,20 +28,14 @@
   "devDependencies": {
     "angular": "~1.4.0",
     "angular-mocks": "~1.4.0",
+    "brfs": "~1.4.0",
     "chai": "~3.0.0",
-    "karma": "0.12",
-    "karma-browserify": "^1.0.0",
-    "karma-cli": "0",
-    "karma-coverage": "0.2.6",
-    "karma-mocha": "0",
-    "karma-phantomjs-launcher": "0",
-    "mocha": "1",
-    "partialify": "~3.1.1",
+    "phantomjs": "~1.9.17",
     "publicist": "~4.0.4",
     "publicist-umd": "~1.0.2",
     "sinon": "~1.15.3",
-    "sinon-chai": "~2.8.0",
-    "standard": "~3.7.3"
+    "standard": "~3.7.3",
+    "zuul": "~3.0.0"
   },
   "dependencies": {
     "ap": "~0.2.0",
