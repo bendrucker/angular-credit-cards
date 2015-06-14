@@ -76,6 +76,7 @@
   },
   "jspm": {
     "format": "es6",
+    "main": "src/index.js",
     "repository": "github",
     "dependencies": {
       "angular/bower-angular": "~1.4.0",
