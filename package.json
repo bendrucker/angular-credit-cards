@@ -4,7 +4,9 @@
   "description": "Angular directives for formatting and validating credit card inputs",
   "main": "./src",
   "scripts": {
-    "test": "standard && zuul --phantom -- test/*.js"
+    "test": "standard && zuul --phantom -- test/*.js",
+    "umd": "browserify -e . -s angularCreditCards -p derequire/plugin > release/angular-credit-cards.js",
+    "preversion": "npm run umd && git add ./release/* && git commit -m 'UMD Build'"
   },
   "repository": {
     "type": "git",
@@ -29,7 +31,9 @@
     "angular": "~1.4.0",
     "angular-mocks": "~1.4.0",
     "brfs": "~1.4.0",
+    "browserify": "~10.2.4",
     "chai": "~3.0.0",
+    "derequire": "~2.0.0",
     "phantomjs": "~1.9.17",
     "sinon": "~1.15.3",
     "standard": "~3.7.3",
