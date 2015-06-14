@@ -10,7 +10,7 @@ exports = module.exports = function ccExp () {
     restrict: 'AE',
     require: 'ccExp',
     controller: CcExpController,
-    link: (scope, element, attributes, ccExp) => {
+    link: function (scope, element, attributes, ccExp) {
       ccExp.$watch()
     }
   }
@@ -27,10 +27,10 @@ function CcExpController ($scope, $element) {
     month: {}
   }
 
-  this.setMonth = (monthCtrl) => {
+  this.setMonth = function (monthCtrl) {
     ngModel.month = monthCtrl
   }
-  this.setYear = (yearCtrl) => {
+  this.setYear = function (yearCtrl) {
     ngModel.year = yearCtrl
   }
 
@@ -96,11 +96,11 @@ exports.year = function ccExpYear () {
 
         ngModel.$parsers.unshift(ap.partialRight(year.parse, !fullYear))
 
-        ngModel.$formatters.unshift((value) => {
+        ngModel.$formatters.unshift(function formatExpYear (value) {
           return value ? year.format(value, !fullYear) : ''
         })
 
-        ngModel.$validators.ccExpYear = (value) => {
+        ngModel.$validators.ccExpYear = function validateExpYear (value) {
           return year.isValid(value) && !year.isPast(value)
         }
       }

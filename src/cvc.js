@@ -16,7 +16,7 @@ function factory ($parse) {
       attributes.$set('xAutocompletetype', 'cc-csc')
 
       return function (scope, element, attributes, ngModel) {
-        ngModel.$validators.ccCvc = (value) => {
+        ngModel.$validators.ccCvc = function (value) {
           return cvc.isValid(value, $parse(attributes.ccType)(scope))
         }
 
