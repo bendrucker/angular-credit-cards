@@ -38,7 +38,7 @@
     "phantomjs": "~1.9.17",
     "sinon": "~1.15.3",
     "sinon-chai": "~2.8.0",
-    "standard": "~3.7.3",
+    "standard": "~4.2.1",
     "zuul": "~3.0.0"
   },
   "dependencies": {
