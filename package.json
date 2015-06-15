@@ -36,6 +36,7 @@
     "derequire": "~2.0.0",
     "phantomjs": "~1.9.17",
     "sinon": "~1.15.3",
+    "sinon-chai": "~2.8.0",
     "standard": "~3.7.3",
     "zuul": "~3.0.0"
   },
