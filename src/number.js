@@ -29,6 +29,16 @@ function factory ($parse) {
           return ngModel.$viewValue
         }
 
+        function setCursorPostion (element, position) {
+          if (element.setSelectionRange) {
+            element.setSelectionRange(position, position)
+          } else if (element.createTextRange) {
+            var range = element.createTextRange()
+            range.move('character', position)
+            range.select()
+          }
+        }
+
         if ($attributes.ccEagerType != null) {
           $scope.$watch($viewValue, function eagerTypeCheck (number) {
             if (!number) return
@@ -55,7 +65,7 @@ function factory ($parse) {
             if (formatted && !formatted.charAt(selectionEnd - 1).trim()) {
               selectionEnd++
             }
-            element.setSelectionRange(selectionEnd, selectionEnd)
+            setCursorPostion(element, selectionEnd)
           })
         }
 
