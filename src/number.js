@@ -53,7 +53,11 @@ function factory ($parse) {
             var selectionEnd = element.selectionEnd
             ngModel.$render()
             if (formatted && !formatted.charAt(selectionEnd - 1).trim()) {
-              selectionEnd++
+              if (previous && previous.length < input.length) {
+                selectionEnd++
+              } else {
+                selectionEnd--
+              }
             }
             element.setSelectionRange(selectionEnd, selectionEnd)
           })
