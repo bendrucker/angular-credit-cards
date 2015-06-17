@@ -46,16 +46,12 @@ function factory ($parse) {
         if ($attributes.ccFormat != null) {
           $scope.$watch($viewValue, function formatInput (input, previous) {
             if (!input) return
-            var element = $element[0]
-            var formatted = card.format(card.parse(input))
-
+            var formatted = card.format(card.parse(input.replace(/\s/g, '')))
             ngModel.$setViewValue(formatted)
-            var selectionEnd = element.selectionEnd
             ngModel.$render()
-            if (formatted && !formatted.charAt(selectionEnd - 1).trim()) {
-              selectionEnd++
-            }
-            element.setSelectionRange(selectionEnd, selectionEnd)
+            var val = $element.val()
+            $element.val('')
+            $element.val(val)
           })
         }
 
