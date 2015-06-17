@@ -595,7 +595,11 @@ function factory ($parse) {
             var selectionEnd = element.selectionEnd
             ngModel.$render()
             if (formatted && !formatted.charAt(selectionEnd - 1).trim()) {
-              selectionEnd++
+              if (previous && previous.length < input.length) {
+                selectionEnd++
+              } else {
+                selectionEnd--
+              }
             }
             element.setSelectionRange(selectionEnd, selectionEnd)
           })
@@ -616,9 +620,10 @@ function factory ($parse) {
 }
 
 },{"creditcards":12}],17:[function(_dereq_,module,exports){
+(function (global){
 'use strict'
 
-var angular = (window.angular)
+var angular = (typeof window !== "undefined" ? window.angular : typeof global !== "undefined" ? global.angular : null)
 var creditcards = _dereq_('creditcards')
 var number = _dereq_('./number')
 var cvc = _dereq_('./cvc')
@@ -634,5 +639,6 @@ module.exports = angular
   .directive('ccCvc', cvc)
   .name
 
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./cvc":14,"./expiration":15,"./number":16,"creditcards":12}]},{},[17])(17)
 });
