@@ -70,6 +70,16 @@ describe('cc-number', function () {
       expect(controller.$viewValue).to.equal('4242 4')
       expect(element[0].selectionEnd).to.equal(6)
     })
+
+    it('decrements the cursor when deleted a character after the space', function () {
+      controller.$setViewValue('4242 4')
+      scope.$digest()
+
+      controller.$setViewValue('4242 ')
+      scope.$digest()
+      expect(controller.$viewValue).to.equal('4242')
+      expect(element[0].selectionEnd).to.equal(4)
+    })
   })
 
   describe('ccType (expected type)', function () {
