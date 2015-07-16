@@ -2,7 +2,7 @@
   "name": "angular-credit-cards",
   "version": "2.3.5",
   "description": "Angular directives for formatting and validating credit card inputs",
-  "main": "./src",
+  "main": "./release/angular-credit-cards.js",
   "scripts": {
     "test": "standard && zuul --phantom -- test/*.js",
     "umd": "browserify -e . -s angularCreditCards -t [exposify --expose [ --angular=angular ] ] -p derequire/plugin > ./release/angular-credit-cards.js",
