@@ -58,24 +58,55 @@ describe('cc-number', function () {
 
   describe('ccFormat (card formatting)', function () {
     it('formats the card number during entry', function () {
-      controller.$setViewValue('42424')
+      element.val('42424')
+      element.triggerHandler('input')
       scope.$digest()
       expect(controller.$viewValue).to.equal('4242 4')
       expect(element.val()).to.equal('4242 4')
     })
 
     it('increments the cursor after a space', function () {
-      controller.$setViewValue('42424')
+      element.val('42424')
+      element.triggerHandler('input')
       scope.$digest()
       expect(controller.$viewValue).to.equal('4242 4')
       expect(element[0].selectionEnd).to.equal(6)
     })
 
+    it('increments the cursor after a space and many characters with debounce', angular.mock.inject(function ($injector, $parse) {
+      $compile = $injector.get('$compile')
+      element = angular.element('<input ng-model="card.number" ng-model-options="{ debounce: 50 }" cc-number cc-format />')
+      scope = $injector.get('$rootScope').$new()
+      scope.card = {}
+      controller = $compile(element)(scope).controller('ngModel')
+      element.val('424242')
+      element.triggerHandler('change')
+      scope.$digest()
+      $injector.get('$timeout').flush(100)
+      expect(controller.$viewValue).to.equal('4242 42')
+      expect(element[0].selectionEnd).to.equal(7)
+    }))
+
+    it('debounce test', angular.mock.inject(function ($injector, $parse) {
+      $compile = $injector.get('$compile')
+      element = angular.element('<input ng-model="card.number" ng-model-options="{ debounce: 50 }" />')
+      scope = $injector.get('$rootScope').$new()
+      scope.card = {}
+      controller = $compile(element)(scope).controller('ngModel')
+      element.val('424242')
+      element.triggerHandler('input')
+      $injector.get('$timeout').flush()
+      scope.$digest()
+      expect(controller.$viewValue).to.equal('424242')
+    }))
+
     it('decrements the cursor when deleted a character after the space', function () {
-      controller.$setViewValue('4242 4')
+      element.val('4242 4')
+      element.triggerHandler('input')
       scope.$digest()
 
-      controller.$setViewValue('4242 ')
+      element.val('4242 ')
+      element.triggerHandler('input')
       scope.$digest()
       expect(controller.$viewValue).to.equal('4242')
       expect(element[0].selectionEnd).to.equal(4)
