@@ -49,7 +49,7 @@ All directives apply a [numeric input pattern](http://bradfrostweb.com/blog/mobi
 * Validates the card against the [Luhn algorithm](http://en.wikipedia.org/wiki/Luhn_algorithm)
 * Checks whether the card is the type specified in scope property in `cc-type` (optional)
 * Otherwise, checks whether the card matches any valid card type
-* Exposes the [card type](https://github.com/bendrucker/creditcards/blob/master/README.md#cardtypenumber---string) as `$ccType` on the model controller
+* Exposes the [card type](https://github.com/bendrucker/creditcards-types#card-types) as `$ccType` on the model controller
 
 If you're using `cc-format`, you'll want to apply the [`novalidate`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-novalidate) attribute to disable native browser validation. The input pattern used to trigger the dialer keypad on mobile does not allow spaces, causing browsers that implement pattern validation to display an error tooltip.
 
