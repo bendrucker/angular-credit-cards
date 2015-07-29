@@ -54,22 +54,25 @@ function factory ($parse) {
         }
 
         if ($attributes.ccFormat != null) {
-          $scope.$watch($viewValue, function formatInput (input, previous) {
+          $element.on('input', function formatInput () {
+            var input = $element.val()
+            var previous = $viewValue()
             if (!input) return
             var element = $element[0]
             var formatted = card.format(card.parse(input))
 
-            ngModel.$setViewValue(formatted)
             var selectionEnd = element.selectionEnd
+            ngModel.$setViewValue(formatted)
             ngModel.$render()
-            if (formatted && !formatted.charAt(selectionEnd - 1).trim()) {
-              if (previous && previous.length < input.length) {
+            if (formatted && (!formatted.charAt(selectionEnd - 1).trim())) {
+              if (previous && previous.length < formatted.length) {
                 selectionEnd++
               } else {
                 selectionEnd--
               }
             }
             setCursorPostion(element, selectionEnd)
+
           })
         }
 
