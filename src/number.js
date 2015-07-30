@@ -14,7 +14,7 @@ function factory ($parse) {
       this.eagerType = null
     },
     compile: function ($element, $attributes) {
-      $attributes.$set('pattern', '[0-9]*')
+      $attributes.$set('pattern', '^(\\d*|(\\d+)( \\d+)+)$')
       $attributes.$set('xAutocompletetype', 'cc-number')
 
       return function ($scope, $element, $attributes, controllers) {
