@@ -37,8 +37,16 @@ function CcExpController ($scope, $element) {
   function setValidity (exp) {
     var expMonth = exp.month
     var expYear = exp.year
-    var valid = !!expMonth && !!expYear && !expiration.isPast(expMonth, expYear)
+    var past = false
+    var valid = !!expMonth && !!expYear && !(past = expiration.isPast(expMonth, expYear))
     parentForm.$setValidity('ccExp', valid, $element)
+    if (past) {
+      var now = new Date()
+      valid = !(now.getFullYear() === expYear && (now.getMonth() + 1) > expMonth)
+      ngModel.month.$setValidity('ccExpMonth', valid)
+    } else if (!past && !!expMonth && !!expYear) {
+      ngModel.month.$setValidity('ccExpMonth', true)
+    }
   }
 
   this.$watch = function $watchExp () {
