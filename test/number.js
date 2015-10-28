@@ -19,7 +19,7 @@ describe('cc-number', function () {
   }))
 
   it('adds a numeric pattern', function () {
-    expect(element.attr('pattern')).to.equal('[0-9]*')
+    expect(element.attr('pattern')).to.equal('[0-9]* ')
   })
 
   it('adds an autocomplete attribute', function () {
