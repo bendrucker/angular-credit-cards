@@ -71,9 +71,9 @@ exports.month = function ccExpMonth () {
 
         ccExp.setMonth(ngModel)
         ngModel.$parsers.unshift(month.parse)
-        ngModel.$validators.ccExpMonth = function() {
-			return !attributes.required || month.isValid
-		}
+        ngModel.$validators.ccExpMonth = function () {
+          return !attributes.required || month.isValid
+        }
       }
     }
   }
