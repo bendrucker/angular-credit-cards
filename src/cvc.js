@@ -17,7 +17,10 @@ function factory ($parse) {
 
       return function (scope, element, attributes, ngModel) {
         ngModel.$validators.ccCvc = function (value) {
-          return cvc.isValid(value, $parse(attributes.ccType)(scope))
+          return cvc.isValid(
+            attributes.type === 'number' ? value + '' : value,
+            $parse(attributes.ccType)(scope)
+          )
         }
 
         if (attributes.ccType) {
