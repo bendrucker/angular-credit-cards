@@ -44,10 +44,20 @@ describe('cc-cvc', function () {
     expect(scope.card.cvc).to.equal('1234')
   })
 
-  it('does not accept numbers', function () {
+  it('does not accept numbers if input has type other than "number"',
+    function () {
     controller.$setViewValue(123)
     scope.$digest()
     expect(controller.$valid).to.be.false
+  })
+
+  it('accepts numbers if input has type of "number"', function () {
+    element =
+      angular.element('<input type="number" ng-model="card.cvc" cc-cvc />')
+    controller = $compile(element)(scope).controller('ngModel')
+    controller.$setViewValue(123)
+    scope.$digest()
+    expect(controller.$valid).to.be.true
   })
 
   it('unsets the model value when invalid', function () {
