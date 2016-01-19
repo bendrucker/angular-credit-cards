@@ -83,7 +83,15 @@ function factory ($parse) {
         }
 
         ngModel.$validators.ccNumberType = function validateCcNumberType (number) {
-          return card.isValid(number, $parse($attributes.ccType)($scope))
+          var cardTypes = $parse($attributes.ccType)($scope)
+          if (!angular.isArray(cardTypes)) {
+            cardTypes = [cardTypes]
+          }
+          var result = false
+          angular.forEach(cardTypes, function(value) {
+            result = result || card.isValid(number, value);
+          })
+          return result
         }
       }
     }
