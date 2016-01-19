@@ -34,7 +34,7 @@
     "browserify": "~10.2.4",
     "chai": "~3.0.0",
     "derequire": "~2.0.0",
-    "exposify": "~0.4.1",
+    "exposify": "~0.5.0",
     "phantomjs": "~1.9.17",
     "sinon": "~1.15.3",
     "sinon-chai": "~2.8.0",
