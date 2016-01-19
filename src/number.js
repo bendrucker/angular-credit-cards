@@ -1,6 +1,8 @@
 'use strict'
 
 var card = require('creditcards').card
+var array = require('cast-array')
+var partial = require('ap').partial
 
 module.exports = factory
 
@@ -83,7 +85,9 @@ function factory ($parse) {
         }
 
         ngModel.$validators.ccNumberType = function validateCcNumberType (number) {
-          return card.isValid(number, $parse($attributes.ccType)($scope))
+          var type = $parse($attributes.ccType)($scope)
+          if (!type) card.isValid(number)
+          return array(type).some(partial(card.isValid, number))
         }
       }
     }

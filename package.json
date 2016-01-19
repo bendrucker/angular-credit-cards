@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "ap": "~0.2.0",
+    "cast-array": "~1.0.1",
     "creditcards": "~1.5.0",
     "function-bind": "~1.0.2"
   },

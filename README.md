@@ -32,7 +32,7 @@ If you'd like to use the [creditcards](https://www.npmjs.org/package/creditcards
 
 ## API
 
-With the exception of `ccExp`, all directives require `ngModel` on their elements. While designed to be used together, all directives except `ccExp` can be used completely independently. 
+With the exception of `ccExp`, all directives require `ngModel` on their elements. While designed to be used together, all directives except `ccExp` can be used completely independently.
 
 All directives apply a [numeric input pattern](http://bradfrostweb.com/blog/mobile/better-numerical-inputs-for-mobile-forms/) so that mobile browsers use a modified version of the enlarged telephone keypad. You should use `type="text"` for all `input` elements.
 
@@ -47,15 +47,15 @@ All directives apply a [numeric input pattern](http://bradfrostweb.com/blog/mobi
 * Can format your inputs into space-delimited groups (e.g. `4242 4242 4242 4242`) by adding the `cc-format` option
 * Strips all punctuation and spaces in the model
 * Validates the card against the [Luhn algorithm](http://en.wikipedia.org/wiki/Luhn_algorithm)
-* Checks whether the card is the type specified in scope property in `cc-type` (optional)
+* Checks whether the card is the type(s) specified in scope property in `cc-type` (optional)
 * Otherwise, checks whether the card matches any valid card type
 * Exposes the [card type](https://github.com/bendrucker/creditcards-types#card-types) as `$ccType` on the model controller
 
 If you're using `cc-format`, you'll want to apply the [`novalidate`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-novalidate) attribute to disable native browser validation. The input pattern used to trigger the dialer keypad on mobile does not allow spaces, causing browsers that implement pattern validation to display an error tooltip.
 
-The `cc-type` property is optional. If its value is defined on the scope, the card number will be checked against that type in addition to the Luhh algorithm. A special validity key—`ccNumberType`—indicates whether the card matched the specified type. If no type is provided, `ccNumberType` will always be valid for any card that passes Luhn and matches any card type.
+The `cc-type` property is optional and may be a single card type or an array of types. If its value is defined on the scope, the card number will be checked against the type(s) in addition to the Luhh algorithm. A special validity key—`ccNumberType`—indicates whether the card matched the specified type. If no type is provided, `ccNumberType` will always be valid for any card that passes Luhn and matches any card type.
 
-You can also enable eager card type detection to match against card type with only leading digits (e.g. a `4` can immediately be detected as a Visa). Add the `cc-eager-type` attribute to your element to enable eager type detection. The eagerly matched type will be available as `$ccEagerType` on the model controller. 
+You can also enable eager card type detection to match against card type with only leading digits (e.g. a `4` can immediately be detected as a Visa). Add the `cc-eager-type` attribute to your element to enable eager type detection. The eagerly matched type will be available as `$ccEagerType` on the model controller.
 
 Displaying the card type from a user input:
 
@@ -123,9 +123,9 @@ You can optionally specify a scope property that stores the card type as `cc-typ
 
 Validates that the month/year pair has not passed
 
-`cc-exp-month` and `cc-exp-year` should both be placed on `input` elements with `type="text"` or no `type` attribute. The browser's normal maxlength behavior (preventing input after the specified number of characters and truncating pasted text to that length) does not work with `type="number"`. Both directives will handle parsing the date components into numbers internally. 
+`cc-exp-month` and `cc-exp-year` should both be placed on `input` elements with `type="text"` or no `type` attribute. The browser's normal maxlength behavior (preventing input after the specified number of characters and truncating pasted text to that length) does not work with `type="number"`. Both directives will handle parsing the date components into numbers internally.
 
-`cc-exp` must be placed on a parent element of `cc-exp-month` and `cc-exp-year`. Because `ccExp` is not an input and adds a validation property directly to the form, you cannot access its validity as `myForm.ccExp.$valid`. Instead use `myForm.$error.ccExp` to determine whether to show a validation error. 
+`cc-exp` must be placed on a parent element of `cc-exp-month` and `cc-exp-year`. Because `ccExp` is not an input and adds a validation property directly to the form, you cannot access its validity as `myForm.ccExp.$valid`. Instead use `myForm.$error.ccExp` to determine whether to show a validation error.
 
 <hr>
 

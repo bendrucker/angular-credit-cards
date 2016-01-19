@@ -44,6 +44,16 @@ describe('cc-number', function () {
     expect(controller.$error.ccNumberType).to.not.be.ok
   })
 
+  it('accepts a valid card with multiple types', function () {
+    scope.cardType = ['Visa', 'American Express']
+    controller.$setViewValue('4242 4242 4242 4242')
+    scope.$digest()
+    expect(controller.$error.ccNumberType).to.not.be.ok
+    controller.$setViewValue('378282246310005')
+    scope.$digest()
+    expect(controller.$error.ccNumberType).to.not.be.ok
+  })
+
   it('rejects a luhn-invalid card', function () {
     controller.$setViewValue('4242424242424241')
     expect(controller.$error.ccNumber).to.be.true
