@@ -30,16 +30,16 @@
   "devDependencies": {
     "angular": "~1.5.0",
     "angular-mocks": "~1.5.0",
-    "brfs": "~1.4.0",
-    "browserify": "~10.2.4",
-    "chai": "~3.0.0",
-    "derequire": "~2.0.0",
-    "exposify": "~0.5.0",
-    "phantomjs": "~1.9.17",
-    "sinon": "~1.15.3",
-    "sinon-chai": "~2.8.0",
-    "standard": "~4.2.1",
-    "zuul": "~3.0.0"
+    "brfs": "^1.4.0",
+    "browserify": "^13.0.0",
+    "chai": "^3.0.0",
+    "derequire": "^2.0.0",
+    "exposify": "^0.5.0",
+    "phantomjs": "^1.9.17",
+    "sinon": "^1.15.3",
+    "sinon-chai": "^2.8.0",
+    "standard": "^4.2.1",
+    "zuul": "^3.0.0"
   },
   "dependencies": {
     "ap": "~0.2.0",
