@@ -49,7 +49,14 @@ describe('Expiration', function () {
       expect(formController.$error.ccExp).to.not.be.ok
     })
 
-    it('is invalid when either the month or year are invalid', function () {
+    it('is invalid when month exists but not year', function () {
+      expiration.month = 10
+      $scope.$digest()
+      expect(formController.$error.ccExp).to.contain(element)
+    })
+
+    it('is invalid when year exists but not month', function () {
+      expiration.year = 2018
       $scope.$digest()
       expect(formController.$error.ccExp).to.contain(element)
     })
@@ -59,6 +66,11 @@ describe('Expiration', function () {
       expiration.year = 2014
       $scope.$digest()
       expect(formController.$error.ccExp).to.contain(element)
+    })
+
+    it('is valid with an empty expiration', function () {
+      $scope.$digest()
+      expect(formController.$error.ccExp).to.not.be.ok
     })
 
     it('is a noop with no form', function () {
