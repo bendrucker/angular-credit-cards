@@ -38,7 +38,6 @@ describe('cc-number', function () {
   })
 
   it('accepts an empty card', function () {
-    controller.$setViewValue('')
     expect(controller.$error.ccNumber).to.not.be.ok
     expect(scope.card.number).to.equal(undefined)
   })
