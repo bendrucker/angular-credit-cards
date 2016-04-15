@@ -71,6 +71,8 @@ describe('Expiration', function () {
     it('is valid with an empty expiration', function () {
       $scope.$digest()
       expect(formController.$error.ccExp).to.not.be.ok
+      expect(formController.$error.ccExpMonth).to.not.be.ok
+      expect(formController.$error.ccExpYear).to.not.be.ok
     })
 
     it('is a noop with no form', function () {

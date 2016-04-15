@@ -50,7 +50,7 @@ describe('cc-cvc', function () {
     expect(controller.$valid).to.be.false
   })
 
-  it('accepts an empty cvc', function() {
+  it('accepts an empty cvc', function () {
     controller.$setViewValue('')
     scope.$digest()
     expect(controller.$valid).to.be.true
