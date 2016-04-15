@@ -39,7 +39,7 @@ All directives apply a [numeric input pattern](http://bradfrostweb.com/blog/mobi
 ### Card Number (`cc-number`)
 
 ```html
-<input type="text" ng-model="card.number" cc-number cc-type="cardType" />
+<input type="text" ng-model="card.number" cc-number cc-type="cardType" ng-required="true" />
 ```
 
 * Can format your inputs into space-delimited groups (e.g. `4242 4242 4242 4242`) by adding the `cc-format` option
@@ -67,6 +67,9 @@ Displaying the card type from a user input:
 <p ng-show="paymentForm.cardNumber.$valid">
   Yes, that looks like a valid {{paymentForm.cardNumber.$ccType}} number!
 </p>
+<p ng-show="paymentForm.cardNumber.$error.required">
+  You must enter a credit card number!
+</p>
 ```
 
 Enforcing a specific card type chosen with a `<select>`:
@@ -84,8 +87,8 @@ Enforcing a specific card type chosen with a `<select>`:
 ### CVC (`cc-cvc`)
 
 ```html
-<input type="text" ng-model="card.cvc" cc-cvc />
-<input type="text" ng-model="card.cvc" cc-type="cardNumber.$ccType" />
+<input type="text" ng-model="card.cvc" cc-cvc ng-required="true" />
+<input type="text" ng-model="card.cvc" cc-type="cardNumber.$ccType" ng-required="true" />
 ```
 
 * Sets `maxlength="4"`
@@ -99,8 +102,8 @@ You can optionally specify a scope property that stores the card type as `cc-typ
 
 ```html
 <div cc-exp>
-  <input ng-model="card.exp_month" cc-exp-month />
-  <input ng-model="card.exp_year" cc-exp-year />
+  <input ng-model="card.exp_month" cc-exp-month ng-required="true" />
+  <input ng-model="card.exp_year" cc-exp-year ng-required="true" />
 </div>
 ```
 

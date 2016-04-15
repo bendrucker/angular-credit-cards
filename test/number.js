@@ -37,6 +37,14 @@ describe('cc-number', function () {
     expect(scope.card.number).to.equal('4242424242424242')
   })
 
+  it('accepts an empty card', function () {
+    controller.$setViewValue('')
+    scope.$digest()
+    expect(controller.$error.ccNumber).to.not.be.ok
+    expect(controller.$error.ccNumberType).to.not.be.ok
+    expect(scope.card.number).to.equal('')
+  })
+
   it('accepts a valid card with specified type', function () {
     scope.cardType = 'Visa'
     controller.$setViewValue('4242 4242 4242 4242')
@@ -128,7 +136,7 @@ describe('cc-number', function () {
       controller.$setViewValue('4242 4242 4242 4242')
       scope.$digest()
       expect(controller.$error.ccNumber).to.not.be.ok
-      expect(controller.$error.ccNumberType).to.be.true
+      expect(controller.$error.ccNumberType).to.equal(true)
     })
 
   })

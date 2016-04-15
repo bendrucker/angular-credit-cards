@@ -17,7 +17,7 @@ function factory ($parse) {
 
       return function (scope, element, attributes, ngModel) {
         ngModel.$validators.ccCvc = function (value) {
-          return cvc.isValid(value, $parse(attributes.ccType)(scope))
+          return ngModel.$isEmpty(ngModel.$viewValue) || cvc.isValid(value, $parse(attributes.ccType)(scope))
         }
 
         if (attributes.ccType) {

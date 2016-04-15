@@ -37,7 +37,7 @@ function CcExpController ($scope, $element) {
   function setValidity (exp) {
     var expMonth = exp.month
     var expYear = exp.year
-    var valid = !!expMonth && !!expYear && !expiration.isPast(expMonth, expYear)
+    var valid = (expMonth == null && expYear == null) || !!expMonth && !!expYear && !expiration.isPast(expMonth, expYear)
     parentForm.$setValidity('ccExp', valid, $element)
   }
 
@@ -71,7 +71,9 @@ exports.month = function ccExpMonth () {
 
         ccExp.setMonth(ngModel)
         ngModel.$parsers.unshift(month.parse)
-        ngModel.$validators.ccExpMonth = month.isValid
+        ngModel.$validators.ccExpMonth = function validateExpMonth (value) {
+          return ngModel.$isEmpty(ngModel.$viewValue) || month.isValid(value)
+        }
       }
     }
   }
@@ -101,7 +103,7 @@ exports.year = function ccExpYear () {
         })
 
         ngModel.$validators.ccExpYear = function validateExpYear (value) {
-          return year.isValid(value) && !year.isPast(value)
+          return ngModel.$isEmpty(ngModel.$viewValue) || (year.isValid(value) && !year.isPast(value))
         }
       }
     }
