@@ -1,6 +1,6 @@
 {
   "name": "angular-credit-cards",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Angular directives for formatting and validating credit card inputs",
   "main": "./src",
   "scripts": {
