@@ -43,7 +43,10 @@ function factory ($parse) {
 
         if ($attributes.ccEagerType != null) {
           $scope.$watch($viewValue, function eagerTypeCheck (number) {
-            if (!number) return
+            if (!number) {
+              ngModel.$ccEagerType = undefined
+              return
+            }
             number = card.parse(number)
             ngModel.$ccEagerType = ccNumber.eagerType = card.type(number, true)
           })
