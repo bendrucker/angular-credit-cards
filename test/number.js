@@ -182,6 +182,13 @@ describe('cc-number', function () {
       expect(controller.$ccEagerType).to.equal('Visa')
     })
 
+    it('clears the type after the view value is cleared', function () {
+      controller.$setViewValue('4')
+      expect(controller.$ccEagerType).to.equal('Visa')
+      controller.$setViewValue('')
+      expect(controller.$ccEagerType).to.equal(undefined)
+    })
+
   })
 
 })
