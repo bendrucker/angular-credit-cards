@@ -80,6 +80,13 @@ describe('Expiration', function () {
       $scope.$digest()
     })
 
+    it('is valid with valid initial data', function () {
+      expiration.month = 1
+      expiration.year = 2015
+      formController = $compile(element)($scope).controller('form')
+      expect(formController.$error.ccExp).to.not.be.ok
+      expect(formController.$valid).equal(true)
+    })
   })
 
   describe('cc-exp-month', function () {
