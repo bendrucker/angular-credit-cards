@@ -81,6 +81,13 @@ module.exports = function castArray (value) {
 },{"isarray":18}],4:[function(_dereq_,module,exports){
 'use strict'
 
+exports.card = _dereq_('./src/card')
+exports.cvc = _dereq_('./src/cvc')
+exports.expiration = _dereq_('./src/expiration')
+
+},{"./src/card":8,"./src/cvc":9,"./src/expiration":10}],5:[function(_dereq_,module,exports){
+'use strict'
+
 var types = exports.types = _dereq_('./src/types')
 exports.Type = _dereq_('./src/type')
 
@@ -92,7 +99,7 @@ exports.find = function findCardType (callback) {
   }
 }
 
-},{"./src/type":5,"./src/types":6}],5:[function(_dereq_,module,exports){
+},{"./src/type":6,"./src/types":7}],6:[function(_dereq_,module,exports){
 'use strict'
 
 var extend = _dereq_('xtend/mutable')
@@ -117,7 +124,7 @@ CardType.prototype.test = function (number, eager) {
   return this[eager ? 'eagerPattern' : 'pattern'].test(number)
 }
 
-},{"xtend/mutable":29}],6:[function(_dereq_,module,exports){
+},{"xtend/mutable":29}],7:[function(_dereq_,module,exports){
 'use strict'
 
 var Type = _dereq_('./type')
@@ -181,14 +188,7 @@ exports.unionPay = new Type('UnionPay', {
   luhn: false
 })
 
-},{"./type":5}],7:[function(_dereq_,module,exports){
-'use strict'
-
-exports.card = _dereq_('./src/card')
-exports.cvc = _dereq_('./src/cvc')
-exports.expiration = _dereq_('./src/expiration')
-
-},{"./src/card":8,"./src/cvc":9,"./src/expiration":10}],8:[function(_dereq_,module,exports){
+},{"./type":6}],8:[function(_dereq_,module,exports){
 'use strict'
 
 var luhn = _dereq_('fast-luhn')
@@ -309,7 +309,7 @@ module.exports = extend(ccTypes, {
   }
 })
 
-},{"camel-case":2,"creditcards-types":4,"xtend":28}],12:[function(_dereq_,module,exports){
+},{"camel-case":2,"creditcards-types":5,"xtend":28}],12:[function(_dereq_,module,exports){
 'use strict'
 
 var zeroFill = _dereq_('zero-fill')
@@ -494,12 +494,12 @@ module.exports = Number.isNaN || function (x) {
 
 var isInteger = _dereq_('is-integer')
 
-module.exports = function parseIntStrict (int) {
-  if (typeof int === 'number') {
-    return isInteger(int) ? int : undefined
+module.exports = function parseIntStrict (integer) {
+  if (typeof integer === 'number') {
+    return isInteger(integer) ? integer : undefined
   }
-  if (typeof int === 'string') {
-    return /^\d+$/.test(int) ? parseInt(int, 10) : undefined
+  if (typeof integer === 'string') {
+    return /^\d+$/.test(integer) ? parseInt(integer, 10) : undefined
   }
 }
 
@@ -710,7 +710,7 @@ function factory ($parse) {
   }
 }
 
-},{"creditcards":7,"function-bind":14}],32:[function(_dereq_,module,exports){
+},{"creditcards":4,"function-bind":14}],32:[function(_dereq_,module,exports){
 'use strict'
 
 var expiration = _dereq_('creditcards').expiration
@@ -825,7 +825,7 @@ exports.year = function ccExpYear () {
 
 function noop () {}
 
-},{"ap":1,"creditcards":7}],33:[function(_dereq_,module,exports){
+},{"ap":1,"creditcards":4}],33:[function(_dereq_,module,exports){
 'use strict'
 
 var card = _dereq_('creditcards').card
@@ -920,7 +920,7 @@ function factory ($parse) {
   }
 }
 
-},{"ap":1,"cast-array":3,"creditcards":7}],34:[function(_dereq_,module,exports){
+},{"ap":1,"cast-array":3,"creditcards":4}],34:[function(_dereq_,module,exports){
 (function (global){
 'use strict'
 
@@ -941,5 +941,5 @@ module.exports = angular
   .name
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./cvc":31,"./expiration":32,"./number":33,"creditcards":7}]},{},[34])(34)
+},{"./cvc":31,"./expiration":32,"./number":33,"creditcards":4}]},{},[34])(34)
 });
