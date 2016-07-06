@@ -136,7 +136,6 @@ describe('Expiration', function () {
       $scope.$digest()
       expect(controller.$valid).to.be.false
     })
-
   })
 
   describe('cc-exp-year', function () {
@@ -211,9 +210,6 @@ describe('Expiration', function () {
         $scope.$digest()
         expect(controller.$viewValue).to.equal('2014')
       })
-
     })
-
   })
-
 })

@@ -138,7 +138,6 @@ describe('cc-number', function () {
       expect(controller.$error.ccNumber).to.not.be.ok
       expect(controller.$error.ccNumberType).to.equal(true)
     })
-
   })
 
   describe('$ccType (actual type)', function () {
@@ -159,7 +158,6 @@ describe('cc-number', function () {
       scope.$digest()
       expect(controller.$ccType).to.equal('Visa')
     })
-
   })
 
   describe('$ccEagerType', function () {
@@ -188,7 +186,5 @@ describe('cc-number', function () {
       controller.$setViewValue('')
       expect(controller.$ccEagerType).to.equal(undefined)
     })
-
   })
-
 })

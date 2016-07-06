@@ -77,7 +77,5 @@ describe('cc-cvc', function () {
       scope.$digest()
       expect(controller.$valid).to.be.true
     })
-
   })
-
 })

@@ -71,7 +71,6 @@ function factory ($parse) {
               selectionEnd = formatted.length
             }
             setCursorPostion(element, selectionEnd)
-
           })
         }
 
