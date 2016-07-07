@@ -6,6 +6,7 @@ var expect = require('chai').use(require('sinon-chai')).expect
 var sinon = require('sinon')
 var angular = require('angular')
 var fs = require('fs')
+var path = require('path')
 require('angular-mocks/ngMock')
 
 describe('Expiration', function () {
@@ -14,7 +15,7 @@ describe('Expiration', function () {
   var $compile, element, $scope, expiration, sandbox
   beforeEach(angular.mock.inject(function ($injector) {
     $compile = $injector.get('$compile')
-    element = angular.element(fs.readFileSync(__dirname + '/fixtures/cc-exp.html').toString())
+    element = angular.element(fs.readFileSync(path.resolve(__dirname, 'fixtures/cc-exp.html')).toString())
     $scope = $injector.get('$rootScope').$new()
     $scope.expiration = (expiration = {})
     sandbox = sinon.sandbox.create()
