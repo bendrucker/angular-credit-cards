@@ -1,6 +1,6 @@
 'use strict'
 
-/*global describe, beforeEach, it*/
+/* global describe, beforeEach, it */
 
 var expect = require('chai').expect
 var angular = require('angular')

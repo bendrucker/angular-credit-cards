@@ -1,6 +1,6 @@
 'use strict'
 
-/*global describe, beforeEach, afterEach, it*/
+/* global describe, beforeEach, afterEach, it */
 
 var expect = require('chai').use(require('sinon-chai')).expect
 var sinon = require('sinon')
