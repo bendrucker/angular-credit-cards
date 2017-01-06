@@ -6,7 +6,7 @@ var partial = require('ap').partial
 
 module.exports = factory
 
-factory.$inject = ['$parse','$timeout']
+factory.$inject = ['$parse', '$timeout']
 function factory ($parse, $timeout) {
   return {
     restrict: 'A',
@@ -32,7 +32,7 @@ function factory ($parse, $timeout) {
         }
 
         function setCursorPostion (element, position) {
-          $timeout( () => {
+          $timeout(() => {
             if (element.setSelectionRange) {
               element.setSelectionRange(position, position)
             } else if (element.createTextRange) {
@@ -40,7 +40,7 @@ function factory ($parse, $timeout) {
               range.move('character', position)
               range.select()
             }
-          },0);
+          }, 0)
         }
 
         if ($attributes.ccEagerType != null) {
