@@ -6,8 +6,8 @@ var partial = require('ap').partial
 
 module.exports = factory
 
-factory.$inject = ['$parse']
-function factory ($parse) {
+factory.$inject = ['$parse','$timeout']
+function factory ($parse, $timeout) {
   return {
     restrict: 'A',
     require: ['ngModel', 'ccNumber'],
@@ -32,13 +32,15 @@ function factory ($parse) {
         }
 
         function setCursorPostion (element, position) {
-          if (element.setSelectionRange) {
-            element.setSelectionRange(position, position)
-          } else if (element.createTextRange) {
-            var range = element.createTextRange()
-            range.move('character', position)
-            range.select()
-          }
+          $timeout( () => {
+            if (element.setSelectionRange) {
+              element.setSelectionRange(position, position)
+            } else if (element.createTextRange) {
+              var range = element.createTextRange()
+              range.move('character', position)
+              range.select()
+            }
+          },0);
         }
 
         if ($attributes.ccEagerType != null) {
