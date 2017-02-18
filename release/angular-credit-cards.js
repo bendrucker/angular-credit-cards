@@ -105,7 +105,7 @@ function CardType (name, config) {
 
 CardType.prototype.cvcLength = 3
 CardType.prototype.luhn = true
-CardType.prototype.groupPattern = /(\d{1,4})(\d{1,4})?(\d{1,4})?(\d{1,4})?/
+CardType.prototype.groupPattern = /(\d{1,4})(\d{1,4})?(\d{1,4})?(\d{1,4})?/;
 
 CardType.prototype.group = function (number) {
   return (number.match(this.groupPattern) || [])
@@ -122,7 +122,7 @@ CardType.prototype.test = function (number, eager) {
 
 var Type = _dereq_('./type')
 
-var group19 = /(\d{1,4})(\d{1,4})?(\d{1,4})?(\d{1,4})?(\d{1,3})?/
+var group19 = /(\d{1,4})(\d{1,4})?(\d{1,4})?(\d{1,4})?(\d{1,3})?/;
 
 exports.visa = new Type('Visa', {
   pattern: /^4\d{12}(\d{3}|\d{6})?$/,
@@ -239,7 +239,7 @@ function getType (number, eager) {
 'use strict'
 
 var types = _dereq_('./types')
-var cvcRegex = /^\d{3,4}$/
+var cvcRegex = /^\d{3,4}$/;
 
 module.exports = {
   isValid: cvcIsValid
