@@ -79,10 +79,12 @@ function factory ($parse, $timeout) {
         ngModel.$parsers.unshift(card.parse)
 
         ngModel.$validators.ccNumber = function validateCcNumber (number) {
+          if ($attributes.ccNumber === 'false') { return null }
           return ngModel.$isEmpty(ngModel.$viewValue) || card.isValid(number)
         }
 
         ngModel.$validators.ccNumberType = function validateCcNumberType (number) {
+          if ($attributes.ccNumber === 'false') { return null }
           if (ngModel.$isEmpty(ngModel.$viewValue)) return true
           var type = $parse($attributes.ccType)($scope)
           if (!type) card.isValid(number)
