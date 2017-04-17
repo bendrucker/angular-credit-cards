@@ -58,5 +58,15 @@
     "ignore": [
       "release/"
     ]
+  },
+  "jspm": {
+    "format": "es6",
+    "main": "src/index.js",
+    "repository": "github",
+    "dependencies": {
+      "angular/bower-angular": "~1.4.0",
+      "substack/node-ap": "~0.2.0",
+      "bendrucker/creditcards": "~2.0.0"
+    }
   }
 }
