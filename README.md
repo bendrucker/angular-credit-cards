@@ -137,7 +137,7 @@ If you're not fully familiar with form validation in Angular, these may be helpf
 * [Angular Form Validation (Scotch.io)](http://scotch.io/tutorials/javascript/angularjs-form-validation)
 * [Form validation with AngularJS (ng-newsletter)](http://www.ng-newsletter.com/posts/validations.html)
 
-angular-credit-cards sets validity keys that match the directive names (`ccNumber`, `ccCvc`, `ccExp`, `ccExpMonth`, `ccExpYear`). You can use these keys or the form css classes in order to display error messages.
+angular-credit-cards sets validity keys that match the directive names (`ccNumber`, `ccCvc`, `ccExp`, `ccExpMonth`, `ccExpYear`). You can use these keys or the form css classes in order to display error messages. If input is unparseable (letters, empty string), a `parse` key is set per Angular conventions.
 
 You can also try a [live demo](http://embed.plnkr.co/uE47aZ/preview) and experiment with various inputs and see how they're validated.
 
