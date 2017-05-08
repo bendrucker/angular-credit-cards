@@ -1,12 +1,11 @@
 'use strict'
 
-var angular = require('angular')
 var creditcards = require('creditcards')
 var number = require('./number')
 var cvc = require('./cvc')
 var expiration = require('./expiration')
 
-module.exports = angular
+module.exports = angular // eslint-disable-line no-undef
   .module('credit-cards', [])
   .value('creditcards', creditcards)
   .directive('ccNumber', number)
