@@ -36,7 +36,7 @@
     "derequire": "^2.0.0",
     "exposify": "^0.5.0",
     "phantomjs-prebuilt": "~2.1.4",
-    "sinon": "^1.15.3",
+    "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
     "standard": "^8.0.0",
     "zuul": "defunctzombie/zuul#075444eb80c4e961341ad9c2e8f7a267fbd7d211"
