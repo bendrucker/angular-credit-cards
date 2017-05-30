@@ -19,6 +19,7 @@ exports = module.exports = function ccExp () {
 CcExpController.$inject = ['$scope', '$element']
 function CcExpController ($scope, $element) {
   var nullFormCtrl = {
+    $removeControl: noop,
     $setValidity: noop
   }
   var parentForm = $element.inheritedData('$formController') || nullFormCtrl
@@ -48,6 +49,10 @@ function CcExpController ($scope, $element) {
         year: ngModel.year.$modelValue
       }
     }, setValidity, true)
+
+    $scope.$on('$destroy', function destroy () {
+      parentForm.$removeControl($element)
+    })
   }
 }
 
