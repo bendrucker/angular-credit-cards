@@ -69,7 +69,7 @@ function factory ($parse, $timeout) {
             ngModel.$setViewValue(formatted)
             ngModel.$render()
 
-            if (previous && previous.length < formatted.length) {
+            if (previous && selectionEnd === previous.length && previous.length < formatted.length) {
               selectionEnd = formatted.length
             }
             setCursorPostion(element, selectionEnd)
