@@ -1,6 +1,6 @@
 'use strict'
 
-var angular = require('angular')
+require('angular')
 var creditcards = require('creditcards')
 var number = require('./number')
 var cvc = require('./cvc')
