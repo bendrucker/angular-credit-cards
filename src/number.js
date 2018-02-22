@@ -60,7 +60,6 @@ function factory ($parse, $timeout) {
           ngModel.$formatters.unshift(card.format)
           $element.on('input', function formatInput () {
             var input = $element.val()
-            var previous = $viewValue()
             if (!input) return
             var element = $element[0]
             var formatted = card.format(card.parse(input))
@@ -69,7 +68,7 @@ function factory ($parse, $timeout) {
             ngModel.$setViewValue(formatted)
             ngModel.$render()
 
-            if (previous && selectionEnd === previous.length && previous.length < formatted.length) {
+            if (selectionEnd === input.length && input.length < formatted.length) {
               selectionEnd = formatted.length
             }
             setCursorPostion(element, selectionEnd)
