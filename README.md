@@ -1,4 +1,4 @@
-angular-credit-cards [![Build Status](https://travis-ci.org/bendrucker/angular-credit-cards.svg?branch=master)](https://travis-ci.org/bendrucker/angular-credit-cards)
+angular-credit-cards [![Build Status](https://travis-ci.org/bendrucker/angular-credit-cards.svg?branch=master)](https://travis-ci.org/bendrucker/angular-credit-cards) [![Greenkeeper badge](https://badges.greenkeeper.io/bendrucker/angular-credit-cards.svg)](https://greenkeeper.io/)
 ====================
 
 A set of Angular directives for constructing credit card payment forms. Uses [creditcards](https://www.npmjs.org/package/creditcards) to parse and validate inputs. Pairs well with [angular-stripe](https://www.npmjs.org/package/angular-stripe) or any other payments backend. [Try it!](http://embed.plnkr.co/uE47aZ/preview)
