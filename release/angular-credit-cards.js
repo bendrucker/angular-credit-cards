@@ -130,6 +130,11 @@ exports.masterCard = new Type('MasterCard', {
   eagerPattern: /^(2|5[1-5])/
 })
 
+exports.uatp = new Type('Uatp', {
+  pattern: /^1[0-9]\d{12,15}$/,
+  eagerPattern: /^(1[1-4])/
+})
+	
 exports.americanExpress = new Type('American Express', {
   pattern: /^3[47]\d{13}$/,
   eagerPattern: /^3[47]/,
