@@ -1,4 +1,4 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.angularCreditCards = f()}})(function(){var define,module,exports;return (function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(_dereq_,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.angularCreditCards = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(_dereq_,module,exports){
 exports = module.exports = ap;
 function ap (args, fn) {
     return function () {
@@ -96,7 +96,7 @@ CardType.prototype.test = function (number, eager) {
   return this[eager ? 'eagerPattern' : 'pattern'].test(number)
 }
 
-},{"xtend/mutable":26}],5:[function(_dereq_,module,exports){
+},{"xtend/mutable":25}],5:[function(_dereq_,module,exports){
 'use strict'
 
 var Type = _dereq_('./type')
@@ -273,7 +273,7 @@ function isExpYearPast (year) {
   return new Date().getFullYear() > year
 }
 
-},{"is-valid-month":17,"parse-int":20,"parse-year":21}],9:[function(_dereq_,module,exports){
+},{"is-valid-month":17,"parse-int":19,"parse-year":20}],9:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = {
@@ -295,7 +295,7 @@ module.exports = extend(ccTypes, {
   }
 })
 
-},{"creditcards-types":3,"to-camel-case":22,"xtend":25}],11:[function(_dereq_,module,exports){
+},{"creditcards-types":3,"to-camel-case":21,"xtend":24}],11:[function(_dereq_,module,exports){
 'use strict'
 
 var zeroFill = _dereq_('zero-fill')
@@ -310,7 +310,7 @@ module.exports = function expandYear (year, now) {
   return parseIntStrict(base + pad(year))
 }
 
-},{"parse-int":20,"zero-fill":27}],12:[function(_dereq_,module,exports){
+},{"parse-int":19,"zero-fill":26}],12:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = (function (array) {
@@ -324,10 +324,11 @@ module.exports = (function (array) {
 
     while (length) {
       value = parseInt(number.charAt(--length), 10)
-      sum += (bit ^= 1) ? array[value] : value
+      bit ^= 1
+      sum += bit ? array[value] : value
     }
 
-    return !!sum && sum % 10 === 0
+    return sum % 10 === 0
   }
 }([0, 2, 4, 6, 8, 1, 3, 5, 7, 9]))
 
@@ -394,13 +395,12 @@ module.exports = Function.prototype.bind || implementation;
 
 },{"./implementation":13}],15:[function(_dereq_,module,exports){
 'use strict';
-var numberIsNan = _dereq_('number-is-nan');
 
-module.exports = Number.isFinite || function (val) {
-	return !(typeof val !== 'number' || numberIsNan(val) || val === Infinity || val === -Infinity);
+module.exports = Number.isFinite || function (value) {
+	return !(typeof value !== 'number' || value !== value || value === Infinity || value === -Infinity);
 };
 
-},{"number-is-nan":19}],16:[function(_dereq_,module,exports){
+},{}],16:[function(_dereq_,module,exports){
 // https://github.com/paulmillr/es6-shim
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.isinteger
 var isFinite = _dereq_("is-finite");
@@ -426,26 +426,21 @@ module.exports = Array.isArray || function (arr) {
 };
 
 },{}],19:[function(_dereq_,module,exports){
-'use strict';
-module.exports = Number.isNaN || function (x) {
-	return x !== x;
-};
-
-},{}],20:[function(_dereq_,module,exports){
 'use strict'
 
 var isInteger = _dereq_('is-integer')
+var isIntegerRegex = /^-?\d+$/
 
 module.exports = function parseIntStrict (integer) {
   if (typeof integer === 'number') {
     return isInteger(integer) ? integer : undefined
   }
   if (typeof integer === 'string') {
-    return /^-?\d+$/.test(integer) ? parseInt(integer, 10) : undefined
+    return isIntegerRegex.test(integer) ? parseInt(integer, 10) : undefined
   }
 }
 
-},{"is-integer":16}],21:[function(_dereq_,module,exports){
+},{"is-integer":16}],20:[function(_dereq_,module,exports){
 'use strict'
 
 var parseIntStrict = _dereq_('parse-int')
@@ -458,7 +453,7 @@ module.exports = function parseYear (year, expand, now) {
   return expandYear(year, now)
 }
 
-},{"expand-year":11,"parse-int":20}],22:[function(_dereq_,module,exports){
+},{"expand-year":11,"parse-int":19}],21:[function(_dereq_,module,exports){
 
 var space = _dereq_('to-space-case')
 
@@ -481,7 +476,7 @@ function toCamelCase(string) {
   })
 }
 
-},{"to-space-case":24}],23:[function(_dereq_,module,exports){
+},{"to-space-case":23}],22:[function(_dereq_,module,exports){
 
 /**
  * Export.
@@ -550,7 +545,7 @@ function uncamelize(string) {
   })
 }
 
-},{}],24:[function(_dereq_,module,exports){
+},{}],23:[function(_dereq_,module,exports){
 
 var clean = _dereq_('to-no-case')
 
@@ -573,7 +568,7 @@ function toSpaceCase(string) {
   }).trim()
 }
 
-},{"to-no-case":23}],25:[function(_dereq_,module,exports){
+},{"to-no-case":22}],24:[function(_dereq_,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -594,7 +589,7 @@ function extend() {
     return target
 }
 
-},{}],26:[function(_dereq_,module,exports){
+},{}],25:[function(_dereq_,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -613,7 +608,8 @@ function extend(target) {
     return target
 }
 
-},{}],27:[function(_dereq_,module,exports){
+},{}],26:[function(_dereq_,module,exports){
+/*! zero-fill. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 /**
  * Given a number, return a zero-filled string.
  * From http://stackoverflow.com/questions/1267283/
@@ -633,7 +629,7 @@ module.exports = function zeroFill (width, number, pad) {
   return number + ''
 }
 
-},{}],28:[function(_dereq_,module,exports){
+},{}],27:[function(_dereq_,module,exports){
 'use strict'
 
 var cvc = _dereq_('creditcards').cvc
@@ -664,7 +660,7 @@ function factory ($parse) {
   }
 }
 
-},{"creditcards":9,"function-bind":14}],29:[function(_dereq_,module,exports){
+},{"creditcards":9,"function-bind":14}],28:[function(_dereq_,module,exports){
 'use strict'
 
 var expiration = _dereq_('creditcards').expiration
@@ -779,7 +775,7 @@ exports.year = function ccExpYear () {
 
 function noop () {}
 
-},{"ap":1,"creditcards":9}],30:[function(_dereq_,module,exports){
+},{"ap":1,"creditcards":9}],29:[function(_dereq_,module,exports){
 'use strict'
 
 var card = _dereq_('creditcards').card
@@ -874,8 +870,8 @@ function factory ($parse, $timeout) {
   }
 }
 
-},{"ap":1,"cast-array":2,"creditcards":9}],31:[function(_dereq_,module,exports){
-(function (global){
+},{"ap":1,"cast-array":2,"creditcards":9}],30:[function(_dereq_,module,exports){
+(function (global){(function (){
 'use strict'
 
 var angular = (typeof window !== "undefined" ? window['angular'] : typeof global !== "undefined" ? global['angular'] : null)
@@ -894,6 +890,6 @@ module.exports = angular
   .directive('ccCvc', cvc)
   .name
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./cvc":28,"./expiration":29,"./number":30,"creditcards":9}]},{},[31])(31)
+}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./cvc":27,"./expiration":28,"./number":29,"creditcards":9}]},{},[30])(30)
 });
